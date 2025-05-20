@@ -1,11 +1,8 @@
 {
-    "name": "Game",
-    "rootNamespace": "PinballBenki.Game",
+    "name": "Communicate",
+    "rootNamespace": "PinballBenki.Communicate",
     "references": [
-        "GUID:34d39aff4f9734000b59d5568ff8bb4f",
-        "GUID:77221876cc6b8244180b96e320b1bcd4",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:8973bb7fdccd24d2e8fe31406d80226b"
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
