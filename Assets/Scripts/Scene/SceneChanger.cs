@@ -28,7 +28,7 @@ namespace PinballBenki.Scene
             }
 
             prevScene.gameObject.SetActive(false);
-            await prevScene.ReleaseInternal(ct);
+            await prevScene.Release(ct);
             // 非同期でシーンをアンロード
             var prevSceneInstance = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(prevSceneInstance)
@@ -61,12 +61,12 @@ namespace PinballBenki.Scene
             }
 
             // 新しいシーンのルートを初期化
-            await nextSceneRoot.InitBeforeShowInternal(ct);
+            await nextSceneRoot.InitBeforeShow(ct);
             if (Shareables.TryGet<IloadingEffect>(out loadingEffect))
             {
                 await loadingEffect.Hide(ct);
             }
-            await nextSceneRoot.InitInternal(ct);
+            await nextSceneRoot.Init(ct);
             nextSceneRoot.gameObject.SetActive(true);
             IsSceneChanging = false;
         }

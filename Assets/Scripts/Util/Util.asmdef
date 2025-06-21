@@ -1,11 +1,7 @@
 {
-    "name": "Input",
-    "rootNamespace": "PinballBenki.Input",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:186bd3f8f859b4ac08f2421d98d1b5ba",
-        "GUID:77221876cc6b8244180b96e320b1bcd4"
-    ],
+    "name": "Util",
+    "rootNamespace": "PinballBenki",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -22,7 +22,7 @@ namespace PinballBenki.Scene
         /// <summary>
         /// 遷移中のタスク
         /// <summary>
-        public virtual Func<CancellationToken, UniTask> TransitionTask => null;
+        public virtual Func<SceneNames, CancellationToken, UniTask> TransitionTask => null;
 
         public enum InitTimings
         {

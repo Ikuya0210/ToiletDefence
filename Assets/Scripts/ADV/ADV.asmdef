@@ -1,12 +1,13 @@
 {
-    "name": "Game",
-    "rootNamespace": "PinballBenki.Game",
+    "name": "ADV",
+    "rootNamespace": "PinballBenki.ADV",
     "references": [
+        "GUID:186bd3f8f859b4ac08f2421d98d1b5ba",
         "GUID:34d39aff4f9734000b59d5568ff8bb4f",
-        "GUID:77221876cc6b8244180b96e320b1bcd4",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:8973bb7fdccd24d2e8fe31406d80226b",
-        "GUID:186bd3f8f859b4ac08f2421d98d1b5ba"
+        "GUID:029c1c1b674aaae47a6841a0b89ad80e",
+        "GUID:0830bb842add743aa924de33f49842c3",
+        "GUID:77221876cc6b8244180b96e320b1bcd4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

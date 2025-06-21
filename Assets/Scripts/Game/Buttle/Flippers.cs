@@ -8,25 +8,16 @@ namespace PinballBenki.Game
     {
         [SerializeField] private Flipper _l;
         [SerializeField] private Flipper _r;
-        private InputProvider _input;
-
+        private PartialInput _input;
 
         internal void Init()
         {
             _input = new();
-            InitFlipper(_l);
-            InitFlipper(_r);
             _input.AddTo(this);
-        }
-
-        private void InitFlipper(Flipper flipper)
-        {
-            if (flipper == null)
-            {
-                return;
-            }
-            flipper.Init();
-            _input.OnAttack += () => flipper.Flip();
+            _l.Init();
+            _r.Init();
+            _input.OnFlip_L.Subscribe(_ => _l.Flip()).AddTo(this);
+            _input.OnFlip_R.Subscribe(_ => _r.Flip()).AddTo(this);
         }
     }
 }

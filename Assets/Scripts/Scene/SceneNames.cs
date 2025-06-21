@@ -6,8 +6,8 @@ namespace PinballBenki.Scene
     {
         None = 0,
         Title,
-        Field,
-        Buttle,
+        ADV,
+        Game,
     }
 
     public static class SceneNamesExtensions
@@ -17,8 +17,8 @@ namespace PinballBenki.Scene
             return sceneName switch
             {
                 SceneNames.Title => "Title",
-                SceneNames.Field => "Field",
-                SceneNames.Buttle => "Buttle",
+                SceneNames.ADV => "ADVBase",
+                SceneNames.Game => "Game",
                 _ => ""
             };
         }
