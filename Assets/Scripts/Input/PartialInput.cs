@@ -18,8 +18,9 @@ namespace PinballBenki.Input
         public Observable<Unit> OnFlip_L => _inputProvider.OnFlip_L.Where(_ => IsValid());
         public Observable<Unit> OnFlip_R => _inputProvider.OnFlip_R.Where(_ => IsValid());
         public Observable<Vector2> OnNavigate => _inputProvider.OnNavigate.Where(_ => IsValid());
-        public Observable<Vector2> OnNavigate4 => _inputProvider.OnNavigate4.Where(_ => IsValid());
-        public Observable<Vector2> OnNavigate8 => _inputProvider.OnNavigate8.Where(_ => IsValid());
+        public Observable<Vector2> OnMove => _inputProvider.OnMove.Where(_ => IsValid());
+        public Observable<Vector2> OnMove4 => _inputProvider.OnMove4.Where(_ => IsValid());
+        public Observable<Vector2> OnMove8 => _inputProvider.OnMove8.Where(_ => IsValid());
 
         private InputProvider _inputProvider;
         private readonly uint _priority;

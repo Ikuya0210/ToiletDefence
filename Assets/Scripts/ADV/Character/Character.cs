@@ -29,7 +29,8 @@ namespace PinballBenki.ADV
             async UniTask MoveAsync(Vector2 dir, CancellationToken ct)
             {
                 _state = States.Walk;
-                await transform.DOMove(transform.position + (Vector3)dir * _moveSpeed, 0.5f)
+                Vector3 dir3d = new Vector3(dir.x, 0, dir.y);
+                await transform.DOMove(transform.position + dir3d * _moveSpeed, 0.5f)
                     .SetEase(Ease.Linear)
                     .ToUniTask(cancellationToken: ct);
                 _state = States.Idle;

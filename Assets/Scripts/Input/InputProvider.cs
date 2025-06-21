@@ -15,6 +15,7 @@ namespace PinballBenki.Input
         private Subject<Unit> _onFlip_L;
         private Subject<Unit> _onFlip_R;
         private Subject<Vector2> _onNavigate;
+        private Subject<Vector2> _onMove;
 
         public Observable<Unit> OnDecide => _onDecide;
         public Observable<Unit> OnBack => _onBack;
@@ -22,13 +23,14 @@ namespace PinballBenki.Input
         public Observable<Unit> OnFlip_L => _onFlip_L;
         public Observable<Unit> OnFlip_R => _onFlip_R;
         public Observable<Vector2> OnNavigate => _onNavigate;
-        public Observable<Vector2> OnNavigate4 => _onNavigate.Select(v2 =>
+        public Observable<Vector2> OnMove => _onMove;
+        public Observable<Vector2> OnMove4 => _onMove.Select(v2 =>
         {
             return new Vector2(
                 Mathf.RoundToInt(v2.x),
                 Mathf.RoundToInt(v2.y));
         });
-        public Observable<Vector2> OnNavigate8 => _onNavigate.Select(v2 =>
+        public Observable<Vector2> OnMove8 => _onMove.Select(v2 =>
         {
             return new Vector2(
                 Mathf.RoundToInt(v2.x * 0.5f) * 2,
@@ -51,6 +53,7 @@ namespace PinballBenki.Input
             _onFlip_L = new();
             _onFlip_R = new();
             _onNavigate = new();
+            _onMove = new();
 
             _disposables.Add(_onDecide);
             _disposables.Add(_onBack);
@@ -58,6 +61,7 @@ namespace PinballBenki.Input
             _disposables.Add(_onFlip_L);
             _disposables.Add(_onFlip_R);
             _disposables.Add(_onNavigate);
+            _disposables.Add(_onMove);
 
             _inputActions.Player.Decide.performed += ctx => _onDecide.OnNext(Unit.Default);
             _inputActions.Player.Back.performed += ctx => _onBack.OnNext(Unit.Default);
@@ -66,12 +70,19 @@ namespace PinballBenki.Input
             _inputActions.Player.Flip_R.performed += ctx => _onFlip_R.OnNext(Unit.Default);
             _inputActions.Player.Navigate.performed += ctx => _onNavigate.OnNext(ctx.ReadValue<Vector2>());
             _inputActions.Player.Navigate.canceled += ctx => _onNavigate.OnNext(Vector2.zero);
+
+            Observable.EveryUpdate()
+                .Select(_ => _inputActions.Player.Navigate.ReadValue<Vector2>())
+                .Where(v2 => v2 != Vector2.zero)
+                .Subscribe(v2 => _onMove.OnNext(v2))
+                .AddTo(_disposables);
         }
 
         public void Dispose()
         {
             _inputActions.Disable();
             _inputActions.Dispose();
+            _disposables.Dispose();
         }
     }
 }
