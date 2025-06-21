@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -9,6 +8,7 @@ namespace PinballBenki.ADV
     public class Character : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 1.0f;
+        private const float TALKABLE_DISTANCE = 1.2f;
         private States _state = States.Idle;
 
         private int _characterLayerMask;
@@ -30,9 +30,23 @@ namespace PinballBenki.ADV
             {
                 _state = States.Walk;
                 Vector3 dir3d = new Vector3(dir.x, 0, dir.y);
-                await transform.DOMove(transform.position + dir3d * _moveSpeed, 0.5f)
-                    .SetEase(Ease.Linear)
-                    .ToUniTask(cancellationToken: ct);
+                Vector3 dir3dNorm = dir3d.normalized;
+                var targetPos = transform.position + dir3d * _moveSpeed;
+                // 目的方向を向いていたら移動する.
+                // 目的方向を向いていなかったら、目的方向を向く。
+                if (Vector3.Dot(transform.forward, dir3dNorm) < 0.9f)
+                {
+                    var targetRotation = Quaternion.LookRotation(dir3dNorm, Vector3.up);
+                    await transform.DORotateQuaternion(targetRotation, 0.2f)
+                        .SetEase(Ease.Linear)
+                        .ToUniTask(cancellationToken: ct);
+                }
+                else
+                {
+                    await transform.DOMove(targetPos, 0.5f)
+                        .SetEase(Ease.Linear)
+                        .ToUniTask(cancellationToken: ct);
+                }
                 _state = States.Idle;
             }
         }
@@ -46,7 +60,7 @@ namespace PinballBenki.ADV
             _state = States.Talk;
             // 前にRayを飛ばして、キャラクターレイヤーに当たるか確認
             Ray ray = new(transform.position, Vector3.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1.0f, _characterLayerMask))
+            if (Physics.Raycast(ray, out RaycastHit hit, TALKABLE_DISTANCE, _characterLayerMask))
             {
                 // キャラクターに当たった場合の処理
                 Debug.Log($"Talking to character: {hit.collider.name}");
