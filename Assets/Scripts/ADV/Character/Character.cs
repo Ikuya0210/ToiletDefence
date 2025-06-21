@@ -8,7 +8,7 @@ namespace PinballBenki.ADV
     public class Character : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 1.0f;
-        private const float TALKABLE_DISTANCE = 1.2f;
+        private const float TALKABLE_DISTANCE = 1.1f;
         private States _state = States.Idle;
 
         private int _characterLayerMask;
@@ -43,6 +43,13 @@ namespace PinballBenki.ADV
                 }
                 else
                 {
+                    Ray ray = new(transform.position, transform.forward);
+                    if (Physics.Raycast(ray, out var _, TALKABLE_DISTANCE, _characterLayerMask))
+                    {
+                        await UniTask.Delay(100, cancellationToken: ct);
+                        _state = States.Idle;
+                        return; // キャラクターに当たった場合は移動しない
+                    }
                     await transform.DOMove(targetPos, 0.5f)
                         .SetEase(Ease.Linear)
                         .ToUniTask(cancellationToken: ct);
@@ -59,7 +66,7 @@ namespace PinballBenki.ADV
             }
             _state = States.Talk;
             // 前にRayを飛ばして、キャラクターレイヤーに当たるか確認
-            Ray ray = new(transform.position, Vector3.forward);
+            Ray ray = new(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, TALKABLE_DISTANCE, _characterLayerMask))
             {
                 // キャラクターに当たった場合の処理
