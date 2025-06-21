@@ -1,16 +1,15 @@
 {
-    "name": "Communicate",
-    "rootNamespace": "PinballBenki.Communicate",
+    "name": "Scene",
+    "rootNamespace": "PinballBenki.Scene",
     "references": [
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:77221876cc6b8244180b96e320b1bcd4"
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
