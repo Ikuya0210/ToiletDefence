@@ -9,6 +9,7 @@ namespace PinballBenki.ADV
         void Skip();
         void Show();
         void Hide();
+        UniTask<int> SelectAsync(string[] texts, CancellationToken ct);
         UniTask ShowAsync(CancellationToken ct);
         UniTask HideAsync(CancellationToken ct);
         UniTask SetTextAsync(string talkerName, string text, CancellationToken ct);

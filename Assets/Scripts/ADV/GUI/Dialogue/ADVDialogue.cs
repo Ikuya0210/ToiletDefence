@@ -12,10 +12,12 @@ namespace PinballBenki.ADV
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private TMP_Text _npcNameText;
         [SerializeField] private TMP_Text _dialogueText;
+        [SerializeField] private ADVDialogueSelectPanel _selectPanel;
         private CancellationTokenSource _skipCts = new();
 
         public void Init()
         {
+            _selectPanel.Init();
             Hide();
         }
 
@@ -94,6 +96,11 @@ namespace PinballBenki.ADV
                 _skipCts.Dispose();
                 _skipCts = null;
             }
+        }
+
+        public UniTask<int> SelectAsync(string[] texts, CancellationToken ct)
+        {
+            return _selectPanel.ShowAsync(texts, ct);
         }
     }
 }

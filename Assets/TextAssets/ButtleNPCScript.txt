@@ -1,2 +1,9 @@
 TALK こんにちわ
-TALK こんばんわ
+TALK バトルしたい！
+Select やる やらない
+setflag a
+if a
+TALK バトルしようぜ
+else
+TALK ざんねんです
+endif

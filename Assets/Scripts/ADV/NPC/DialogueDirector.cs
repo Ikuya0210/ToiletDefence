@@ -19,8 +19,9 @@ namespace PinballBenki.ADV
         {
             _aDVGUI = aDVGUI;
             _input = new(inputPriority);
-            _scriptExecuter = new(new[]{
+            _scriptExecuter = new(new ScriptExecuter.IExecutable[]{
                 new TextNPCExecutable(aDVGUI, () => _currentNpcName)
+                , new SelectNPCExecutable(aDVGUI, () => _currentNpcName)
             });
         }
 
