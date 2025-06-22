@@ -14,6 +14,7 @@ namespace PinballBenki.ADV
             _character.Init();
             _input = new();
             _input.AddTo(this);
+            _input.Activate();
 
             _input.OnDecide.Subscribe(_ => _character.Talk()).AddTo(this);
             _input.OnMove4.Subscribe(dir => _character.Move(dir)).AddTo(this);

@@ -14,6 +14,7 @@ namespace PinballBenki.Game
         {
             _input = new();
             _input.AddTo(this);
+            _input.Activate();
             _l.Init();
             _r.Init();
             _input.OnFlip_L.Subscribe(_ => _l.Flip()).AddTo(this);

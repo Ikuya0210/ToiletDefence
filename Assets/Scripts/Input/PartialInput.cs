@@ -44,7 +44,7 @@ namespace PinballBenki.Input
         {
             _inputProvider = inputProvider;
             _priority = priority;
-            _active = true;
+            _active = false;
         }
 
         public void Activate()

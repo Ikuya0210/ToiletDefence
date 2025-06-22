@@ -69,8 +69,15 @@ namespace PinballBenki.ADV
             Ray ray = new(transform.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, TALKABLE_DISTANCE, _characterLayerMask))
             {
-                // キャラクターに当たった場合の処理
-                Debug.Log($"Talking to character: {hit.collider.name}");
+                Debug.Log($"Hit character: {hit.collider.gameObject.name}");
+                if (hit.collider.TryGetComponent<ITalkable>(out var talkable))
+                {
+                    talkable.TalkAsync(this, destroyCancellationToken)
+                        .SuppressCancellationThrow()
+                        .ContinueWith(success => _state = States.Idle)
+                        .Forget();
+                    return;
+                }
             }
             else
             {
