@@ -7,9 +7,9 @@ namespace PinballBenki.ADV
         [SerializeField] private ADVDialogue _dialogue;
 
         public IADVDialogue Dialogue => _dialogue;
-        public IADVGUI Init()
+        public void Init()
         {
-            return this;
+
         }
     }
 }

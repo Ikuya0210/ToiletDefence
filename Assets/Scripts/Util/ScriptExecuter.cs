@@ -5,6 +5,9 @@ using Cysharp.Threading.Tasks;
 
 namespace PinballBenki
 {
+    /// <summary>
+    /// 内部のToLowerでコマンドを比較するため、コマンドは大文字小文字を区別しない
+    /// </summary>
     public class ScriptExecuter
     {
         private readonly Dictionary<string, Func<string[], CancellationToken, UniTask>> _commandMap;
@@ -23,7 +26,7 @@ namespace PinballBenki
                 {
                     continue;
                 }
-                _commandMap[executable.Command] = executable.ExecuteAsync;
+                _commandMap[executable.Command.ToLower()] = executable.ExecuteAsync;
             }
         }
 
@@ -46,7 +49,7 @@ namespace PinballBenki
 
                 // コマンドと引数を分割
                 var parts = trimmedLine.Split(new[] { ' ' }, 2);
-                var command = parts[0];
+                var command = parts[0].ToLower();
 
                 // コマンドがマップに存在するか確認
                 if (_commandMap.TryGetValue(command, out var executeFunc))

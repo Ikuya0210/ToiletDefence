@@ -11,11 +11,13 @@ namespace PinballBenki.ADV
 
         [SerializeField] private PlayerCtrl _playerCtrl;
         [SerializeField] private NPCManager _npcManager;
+        [SerializeField] private ADVGUICtrl _guiCtrl;
 
         protected override UniTask Init(CancellationToken ct)
         {
+            _guiCtrl.Init();
             _playerCtrl.Init();
-            _npcManager.Init();
+            _npcManager.Init(_guiCtrl);
             return base.Init(ct);
         }
     }
