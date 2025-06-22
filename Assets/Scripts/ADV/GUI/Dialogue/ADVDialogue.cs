@@ -1,5 +1,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +13,11 @@ namespace PinballBenki.ADV
         [SerializeField] private TMP_Text _npcNameText;
         [SerializeField] private TMP_Text _dialogueText;
         private CancellationTokenSource _skipCts = new();
+
+        public void Init()
+        {
+            Hide();
+        }
 
         public void Skip()
         {
@@ -46,15 +52,48 @@ namespace PinballBenki.ADV
         }
 
         public void Show()
-            => _canvasGroup.SetEnable(true);
+        {
+            _canvasGroup.SetEnable(true);
+            IsVisible = true;
+        }
+
 
         public void Hide()
-            => _canvasGroup.SetEnable(false);
+        {
+            _canvasGroup.SetEnable(false);
+            IsVisible = false;
+            _npcNameText.text = string.Empty;
+            _dialogueText.text = string.Empty;
 
-        public UniTask ShowAsync(CancellationToken ct)
-            => _canvasGroup.SetEnableAsync(true, 0.3f, ct);
+            if (_skipCts != null && !_skipCts.IsCancellationRequested)
+            {
+                _skipCts.Cancel();
+                _skipCts.Dispose();
+                _skipCts = null;
+            }
+        }
 
-        public UniTask HideAsync(CancellationToken ct)
-            => _canvasGroup.SetEnableAsync(false, 0.3f, ct);
+        public async UniTask ShowAsync(CancellationToken ct)
+        {
+            if (IsVisible) return;
+            await _canvasGroup.SetEnableAsync(true, 0.3f, ct);
+            IsVisible = true;
+        }
+
+        public async UniTask HideAsync(CancellationToken ct)
+        {
+            if (!IsVisible) return;
+            await _canvasGroup.SetEnableAsync(false, 0.3f, ct);
+            IsVisible = false;
+            _npcNameText.text = string.Empty;
+            _dialogueText.text = string.Empty;
+
+            if (_skipCts != null && !_skipCts.IsCancellationRequested)
+            {
+                _skipCts.Cancel();
+                _skipCts.Dispose();
+                _skipCts = null;
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace PinballBenki
     public class ScriptExecuter
     {
         private readonly Dictionary<string, Func<string[], CancellationToken, UniTask>> _commandMap;
+        private bool _isNextCommand;
 
         public ScriptExecuter(IExecutable[] executables)
         {
@@ -28,6 +29,11 @@ namespace PinballBenki
                 }
                 _commandMap[executable.Command.ToLower()] = executable.ExecuteAsync;
             }
+        }
+
+        public void NextCommand()
+        {
+            _isNextCommand = true;
         }
 
         public async UniTask Exec(string script, CancellationToken ct)
@@ -57,6 +63,8 @@ namespace PinballBenki
                     // コマンドを実行
                     string[] args = parts.Length > 1 ? parts[1].Split(' ') : Array.Empty<string>();
                     await executeFunc(args, ct);
+                    _isNextCommand = false;
+                    await UniTask.WaitUntil(() => _isNextCommand, cancellationToken: ct);
                 }
             }
         }

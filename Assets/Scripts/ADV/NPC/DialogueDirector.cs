@@ -1,6 +1,9 @@
+using System;
+using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using PinballBenki.Input;
+using R3;
 using UnityEngine;
 
 namespace PinballBenki.ADV
@@ -26,10 +29,16 @@ namespace PinballBenki.ADV
             var dialogue = _aDVGUI.Dialogue;
             _currentNpcName = talkerName;
             _input.Activate();
+            IDisposable decide = _input.OnDecide.Subscribe(_ =>
+                {
+                    dialogue.Skip();
+                    _scriptExecuter.NextCommand();
+                });
 
             await _scriptExecuter.Exec(script, ct);
 
             _input.Deactivate();
+            decide.Dispose();
 
             if (dialogue.IsVisible)
             {

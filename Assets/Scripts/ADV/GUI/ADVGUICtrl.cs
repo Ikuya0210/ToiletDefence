@@ -9,7 +9,7 @@ namespace PinballBenki.ADV
         public IADVDialogue Dialogue => _dialogue;
         public void Init()
         {
-
+            _dialogue.Init();
         }
     }
 }
