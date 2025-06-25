@@ -1,23 +1,31 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace PinballBenki.ADV
 {
     public class ADVDialogue : MonoBehaviour, IADVDialogue
     {
         public bool IsVisible { get; private set; }
-        [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private TMP_Text _npcNameText;
-        [SerializeField] private TMP_Text _dialogueText;
-        [SerializeField] private ADVDialogueSelectPanel _selectPanel;
+        [SerializeField] private UIDocument _uIDocument;
         private CancellationTokenSource _skipCts = new();
+        private VisualElement _root;
+        private VisualElement _selectPanel;
+        private Button _selectYesButton;
+        private Button _selectNoButton;
+        private Label _npcNameText;
+        private Label _mainText;
 
         public void Init()
         {
-            _selectPanel.Init();
+
+            _root = _uIDocument.rootVisualElement;
+            _selectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("SelectBox");
+            _selectYesButton = _uIDocument.rootVisualElement.Q<Button>("SelectYesButton");
+            _selectNoButton = _uIDocument.rootVisualElement.Q<Button>("SelectNoButton");
+            _npcNameText = _uIDocument.rootVisualElement.Q<Label>("NameText");
+            _mainText = _uIDocument.rootVisualElement.Q<Label>("MainText");
             Hide();
         }
 
@@ -43,7 +51,7 @@ namespace PinballBenki.ADV
             }
 
             var linkCt = CancellationTokenSource.CreateLinkedTokenSource(ct, _skipCts.Token).Token;
-            bool isCancel = await _dialogueText.SetTextAsync(text, linkCt)
+            bool isCancel = await _mainText.SetTextAsync(text, linkCt)
                 .SuppressCancellationThrow();
 
             // skippによるキャンセル以外は失敗
@@ -55,17 +63,20 @@ namespace PinballBenki.ADV
 
         public void Show()
         {
-            _canvasGroup.SetEnable(true);
+            _root.SetEnable(true);
             IsVisible = true;
         }
 
 
         public void Hide()
         {
-            _canvasGroup.SetEnable(false);
+            _root.SetEnable(false);
+            _selectPanel.SetEnable(false);
+            _selectYesButton.text = string.Empty;
+            _selectNoButton.text = string.Empty;
             IsVisible = false;
             _npcNameText.text = string.Empty;
-            _dialogueText.text = string.Empty;
+            _mainText.text = string.Empty;
 
             if (_skipCts != null && !_skipCts.IsCancellationRequested)
             {
@@ -78,17 +89,17 @@ namespace PinballBenki.ADV
         public async UniTask ShowAsync(CancellationToken ct)
         {
             if (IsVisible) return;
-            await _canvasGroup.SetEnableAsync(true, 0.3f, ct);
+            await _root.SetEnableAsync(true, 0.3f, ct);
             IsVisible = true;
         }
 
         public async UniTask HideAsync(CancellationToken ct)
         {
             if (!IsVisible) return;
-            await _canvasGroup.SetEnableAsync(false, 0.3f, ct);
+            await _root.SetEnableAsync(false, 0.3f, ct);
             IsVisible = false;
             _npcNameText.text = string.Empty;
-            _dialogueText.text = string.Empty;
+            _mainText.text = string.Empty;
 
             if (_skipCts != null && !_skipCts.IsCancellationRequested)
             {
@@ -98,9 +109,29 @@ namespace PinballBenki.ADV
             }
         }
 
-        public UniTask<int> SelectAsync(string[] texts, CancellationToken ct)
+        public async UniTask<int> SelectAsync(string[] texts, CancellationToken ct)
         {
-            return _selectPanel.ShowAsync(texts, ct);
+            _selectYesButton.text = texts[0];
+            _selectNoButton.text = texts[1];
+
+            int selectNum = -1;
+            void ChangeNum(int num)
+            {
+                if (selectNum < 0)
+                {
+                    selectNum = num;
+                }
+            }
+            await _selectPanel.SetEnableAsync(true, 0.2f, ct);
+            await UniTask.Delay(300, cancellationToken: ct);
+            _selectYesButton.clicked += () => ChangeNum(0);
+            _selectNoButton.clicked += () => ChangeNum(1);
+            await UniTask.WaitUntil(() => selectNum != -1);
+            _selectYesButton.clicked -= () => ChangeNum(0);
+            _selectNoButton.clicked -= () => ChangeNum(1);
+            await _selectPanel.SetEnableAsync(false, 0.2f, ct);
+            await UniTask.Yield(cancellationToken: ct);
+            return selectNum;
         }
     }
 }
