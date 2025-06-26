@@ -31,6 +31,12 @@ namespace PinballBenki
 
         public static async UniTask SetEnableAsync(this VisualElement element, bool enable, float duration, float opacity, CancellationToken ct)
         {
+            if (enable)
+            {
+                element.style.opacity = 0;
+                element.style.display = DisplayStyle.Flex;
+            }
+
             if (element == null)
             {
                 throw new System.ArgumentNullException(nameof(element), "VisualElement cannot be null.");
@@ -39,11 +45,8 @@ namespace PinballBenki
             await element.DoFade(enable ? opacity : 0f, duration)
                 .ToUniTask(cancellationToken: ct);
 
-            if (enable)
-            {
-                element.style.display = DisplayStyle.Flex;
-            }
-            else
+
+            if (!enable)
             {
                 element.style.display = DisplayStyle.None;
             }

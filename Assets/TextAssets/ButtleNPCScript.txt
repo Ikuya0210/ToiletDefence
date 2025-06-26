@@ -4,6 +4,7 @@ Select やる やらない
 setflag a
 if a
 TALK バトルしようぜ
+buttlerequest
 else
 TALK ざんねんです
 endif

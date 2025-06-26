@@ -1,17 +1,24 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace PinballBenki.Scene
 {
-    internal static class SceneChanger
+    public static class SceneChanger
     {
         internal static bool IsSceneChanging = false;
+        internal static Action<SceneNames> _onSceneChanged;
+
+        public static void ChangeScene(SceneNames nextName)
+        {
+            _onSceneChanged?.Invoke(nextName);
+        }
 
         /// <summary>
         /// シーンを変更する
         /// </summary>
-        internal static async UniTask ChangeScene(SceneRoot prevScene, SceneNames nextName, CancellationToken ct)
+        internal static async UniTask ChangeSceneInternal(SceneRoot prevScene, SceneNames nextName, CancellationToken ct)
         {
             if (IsSceneChanging)
             {
@@ -20,37 +27,40 @@ namespace PinballBenki.Scene
             }
 
             IsSceneChanging = true;
+            _onSceneChanged = null;
+            Debug.Log("ChangeScnene_1");
 
             // ローディングエフェクトを表示
             if (Shareables.TryGet<IloadingEffect>(out var loadingEffect))
             {
                 await loadingEffect.Show(ct);
+                Debug.Log("ChangeScnene_2");
             }
 
             prevScene.gameObject.SetActive(false);
             await prevScene.Release(ct);
-            // 非同期でシーンをアンロード
+
             var prevSceneInstance = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(prevSceneInstance)
-               .ToUniTask(cancellationToken: ct)
-               .Forget();
+
             await UniTask.Yield(cancellationToken: ct);
+            Debug.Log("ChangeScnene_3");
 
             await UniTask.WhenAll(
                 Shareables.ExecuteTransitionTasks(ct),
-                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(nextName.ToString(), UnityEngine.SceneManagement.LoadSceneMode.Additive)
+                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(nextName.ToSceneNameString(), UnityEngine.SceneManagement.LoadSceneMode.Additive)
                     .ToUniTask(cancellationToken: ct)
                     .ContinueWith(() =>
                     {
                         // 新しいシーンをアクティブにする
-                        var nextScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(nextName.ToString());
+                        var nextScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(nextName.ToSceneNameString());
                         UnityEngine.SceneManagement.SceneManager.SetActiveScene(nextScene);
                     })
             );
+            Debug.Log("ChangeScnene_4");
             await UniTask.Yield(cancellationToken: ct);
 
             // 新しいシーンのルートを取得
-            var nextSceneRoot = GameObject.FindFirstObjectByType<SceneRoot>();
+            var nextSceneRoot = GameObject.FindFirstObjectByType<SceneRoot>(FindObjectsInactive.Include);
             await UniTask.Yield(cancellationToken: ct);
 
             if (nextSceneRoot == null)
@@ -59,6 +69,7 @@ namespace PinballBenki.Scene
                 // TODO: エラーハンドリング
                 return;
             }
+            Debug.Log($"ChangeScnene_5: {nextSceneRoot.SceneName}");
 
             // 新しいシーンのルートを初期化
             await nextSceneRoot.InitBeforeShow(ct);
@@ -66,9 +77,17 @@ namespace PinballBenki.Scene
             {
                 await loadingEffect.Hide(ct);
             }
+            Debug.Log("ChangeScnene_6");
             await nextSceneRoot.Init(ct);
             nextSceneRoot.gameObject.SetActive(true);
             IsSceneChanging = false;
+            _onSceneChanged = nextSceneRoot.ChangeScene;
+            Debug.Log("ChangeScnene_7");
+
+            // 非同期でシーンをアンロード
+            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(prevSceneInstance)
+               .ToUniTask(cancellationToken: ct)
+               .Forget();
         }
     }
 }

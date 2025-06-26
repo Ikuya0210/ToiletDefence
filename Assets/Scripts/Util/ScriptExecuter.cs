@@ -10,10 +10,12 @@ namespace PinballBenki
     /// </summary>
     public class ScriptExecuter : ScriptExecuter.IOwner
     {
+        public Action<int, string[]> OnCustomAction;
         private readonly Dictionary<string, Func<string[], CancellationToken, UniTask<int>>> _commandMap;
         private readonly Dictionary<string, bool> _flags = new();
         private bool _isNextCommand;
         private bool _isWaitNext;
+        private bool _forceEnd;
 
         public ScriptExecuter(IExecutable[] executables)
         {
@@ -44,6 +46,16 @@ namespace PinballBenki
             _isWaitNext = true;
         }
 
+        void IOwner.ForceEnd()
+        {
+            _forceEnd = true;
+        }
+
+        void IOwner.InvokeCustomAction(int id, string[] args)
+        {
+            OnCustomAction?.Invoke(id, args);
+        }
+
         public async UniTask Exec(string script, CancellationToken ct)
         {
             _flags.Clear();
@@ -56,6 +68,7 @@ namespace PinballBenki
             var execStack = new Stack<bool>();
             bool canExec = true;
             int lineSkipCount = 0;
+            _forceEnd = false;
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -120,6 +133,10 @@ namespace PinballBenki
                     string[] args = parts.Length > 1 ? parts[1].Split(' ') : Array.Empty<string>();
                     _isWaitNext = false;
                     int t = await executeFunc(args, ct);
+                    if (_forceEnd)
+                    {
+                        return; // 強制終了
+                    }
                     lineSkipCount += t;
                     if (_isWaitNext)
                     {
@@ -149,6 +166,10 @@ namespace PinballBenki
             /// このコマンドの後、ToNextが呼ばれるまで、次のコマンドを実行されないようにする
             /// </summary>
             void WaitNext();
+
+            void ForceEnd();
+
+            void InvokeCustomAction(int id, string[] args);
         }
     }
 }

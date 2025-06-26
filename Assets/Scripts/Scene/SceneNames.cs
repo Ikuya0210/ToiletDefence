@@ -18,7 +18,7 @@ namespace PinballBenki.Scene
             {
                 SceneNames.Title => "Title",
                 SceneNames.ADV => "ADVBase",
-                SceneNames.Game => "Game",
+                SceneNames.Game => "Battle",
                 _ => ""
             };
         }

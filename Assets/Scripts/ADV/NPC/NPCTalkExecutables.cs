@@ -101,6 +101,8 @@ namespace PinballBenki.ADV
 
         public override UniTask<int> ExecuteAsync(string[] args, CancellationToken ct)
         {
+            _owner.ForceEnd();
+            _owner.InvokeCustomAction(0, null);
             return UniTask.FromResult(0);
         }
     }

@@ -19,8 +19,9 @@ namespace PinballBenki.Scene
 
         public override IShareable Init()
         {
+            _uiDocument.enabled = true;
             _root = _uiDocument.rootVisualElement;
-            _root.style.display = DisplayStyle.None;
+            _root.SetEnable(false);
             return this;
         }
 

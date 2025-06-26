@@ -30,9 +30,9 @@ namespace PinballBenki.Scene
             BootTask.Boot(this, destroyCancellationToken).Forget();
         }
 
-        protected void ChangeScene(SceneNames sceneName)
+        protected internal void ChangeScene(SceneNames sceneName)
         {
-            SceneChanger.ChangeScene(this, sceneName, destroyCancellationToken).Forget();
+            SceneChanger.ChangeSceneInternal(this, sceneName, destroyCancellationToken).Forget();
         }
     }
 }

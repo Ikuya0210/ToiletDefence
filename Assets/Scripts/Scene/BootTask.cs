@@ -59,6 +59,7 @@ namespace PinballBenki.Scene
             // フラグを立てる
             IsBooted = true;
             SceneChanger.IsSceneChanging = false;
+            SceneChanger._onSceneChanged = root.ChangeScene;
         }
     }
 }

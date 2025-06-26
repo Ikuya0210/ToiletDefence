@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
+using UnityEngine;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using PinballBenki.Input;
+using PinballBenki.Scene;
 using R3;
-using UnityEngine;
 
 namespace PinballBenki.ADV
 {
@@ -21,9 +21,10 @@ namespace PinballBenki.ADV
             _input = new(inputPriority);
             _scriptExecuter = new(new ScriptExecuter.IExecutable[]{
                 new TextNPCExecutable(aDVGUI, () => _currentNpcName)
-                , new SelectNPCExecutable(aDVGUI, () => _currentNpcName)
+                ,new SelectNPCExecutable(aDVGUI, () => _currentNpcName)
                 ,new ButtleRequestNPCExecutable(aDVGUI, () => _currentNpcName)
             });
+            _scriptExecuter.OnCustomAction = OnCustomAction;
         }
 
         public async UniTask TalkAsync(string talkerName, string script, CancellationToken ct)
@@ -45,6 +46,19 @@ namespace PinballBenki.ADV
             if (dialogue.IsVisible)
             {
                 await dialogue.HideAsync(ct);
+            }
+        }
+
+        private void OnCustomAction(int id, string[] args)
+        {
+            Debug.Log("aaaaaaa");
+            switch (id)
+            {
+                case 0:
+                    SceneChanger.ChangeScene(SceneNames.Game);
+                    break;
+                default:
+                    return;
             }
         }
     }
