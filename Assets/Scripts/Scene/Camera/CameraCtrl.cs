@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PinballBenki.Scene
 {
-    public sealed class CameraCtrl : BaseShareableInitializer, IShareable
+    public sealed class CameraCtrl : ShareableInitializer, IShareable
     {
         Type IShareable.ShareType => typeof(CameraCtrl);
 

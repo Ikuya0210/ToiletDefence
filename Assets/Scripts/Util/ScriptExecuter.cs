@@ -8,11 +8,12 @@ namespace PinballBenki
     /// <summary>
     /// 内部のToLowerでコマンドを比較するため、コマンドは大文字小文字を区別しない
     /// </summary>
-    public class ScriptExecuter
+    public class ScriptExecuter : ScriptExecuter.IOwner
     {
         private readonly Dictionary<string, Func<string[], CancellationToken, UniTask<int>>> _commandMap;
         private readonly Dictionary<string, bool> _flags = new();
         private bool _isNextCommand;
+        private bool _isWaitNext;
 
         public ScriptExecuter(IExecutable[] executables)
         {
@@ -28,13 +29,19 @@ namespace PinballBenki
                 {
                     continue;
                 }
+                executable.SetOwner(this);
                 _commandMap[executable.Command.ToLower()] = executable.ExecuteAsync;
             }
         }
 
-        public void NextCommand()
+        public void ToNext()
         {
             _isNextCommand = true;
+        }
+
+        void IOwner.WaitNext()
+        {
+            _isWaitNext = true;
         }
 
         public async UniTask Exec(string script, CancellationToken ct)
@@ -111,10 +118,14 @@ namespace PinballBenki
                 if (_commandMap.TryGetValue(command, out var executeFunc))
                 {
                     string[] args = parts.Length > 1 ? parts[1].Split(' ') : Array.Empty<string>();
+                    _isWaitNext = false;
                     int t = await executeFunc(args, ct);
                     lineSkipCount += t;
-                    _isNextCommand = false;
-                    await UniTask.WaitUntil(() => _isNextCommand, cancellationToken: ct);
+                    if (_isWaitNext)
+                    {
+                        _isNextCommand = false;
+                        await UniTask.WaitUntil(() => _isNextCommand, cancellationToken: ct);
+                    }
                 }
             }
         }
@@ -124,9 +135,20 @@ namespace PinballBenki
             string Command { get; }
             /// <summary>
             /// 基本的に0を返す。飛ばす行数を返す
+            /// 0より小さい場合は次の行の実行を待機しない
             /// </summary>
             // メモ：分岐の条件の後にsetflafを書いておいて、直後にif
             UniTask<int> ExecuteAsync(string[] args, CancellationToken ct);
+
+            void SetOwner(IOwner owner);
+        }
+
+        public interface IOwner
+        {
+            /// <summary>
+            /// このコマンドの後、ToNextが呼ばれるまで、次のコマンドを実行されないようにする
+            /// </summary>
+            void WaitNext();
         }
     }
 }

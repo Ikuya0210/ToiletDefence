@@ -36,7 +36,7 @@ namespace PinballBenki.Scene
             SceneManager.SetActiveScene(permanent);
             await UniTask.Yield(cancellationToken: ct);
 
-            var initializers = GameObject.FindObjectsByType<BaseShareableInitializer>(FindObjectsSortMode.None);
+            var initializers = GameObject.FindObjectsByType<ShareableInitializer>(FindObjectsSortMode.None);
             await UniTask.Yield(cancellationToken: ct);
 
             foreach (var initializer in initializers)

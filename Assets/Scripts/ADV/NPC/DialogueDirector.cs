@@ -22,6 +22,7 @@ namespace PinballBenki.ADV
             _scriptExecuter = new(new ScriptExecuter.IExecutable[]{
                 new TextNPCExecutable(aDVGUI, () => _currentNpcName)
                 , new SelectNPCExecutable(aDVGUI, () => _currentNpcName)
+                ,new ButtleRequestNPCExecutable(aDVGUI, () => _currentNpcName)
             });
         }
 
@@ -33,7 +34,7 @@ namespace PinballBenki.ADV
             IDisposable decide = _input.OnDecide.Subscribe(_ =>
                 {
                     dialogue.Skip();
-                    _scriptExecuter.NextCommand();
+                    _scriptExecuter.ToNext();
                 });
 
             await _scriptExecuter.Exec(script, ct);

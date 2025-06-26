@@ -10,7 +10,7 @@ namespace PinballBenki.Scene
         Type ShareType { get; }
     }
 
-    public abstract class BaseShareableInitializer : MonoBehaviour
+    public abstract class ShareableInitializer : MonoBehaviour
     {
         /// <summary>
         /// Shareableの初期化タイミング

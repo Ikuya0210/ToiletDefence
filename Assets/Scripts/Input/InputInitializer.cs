@@ -3,7 +3,7 @@ using R3;
 
 namespace PinballBenki.Input
 {
-    public sealed class InputInitializer : BaseShareableInitializer
+    public sealed class InputInitializer : ShareableInitializer
     {
         public override IShareable Init()
         {
