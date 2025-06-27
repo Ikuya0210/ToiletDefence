@@ -16,6 +16,7 @@ namespace PinballBenki.Scene
             {
                 return;
             }
+            root.gameObject.SetActive(false);
             SceneChanger.IsSceneChanging = true;
 
             var permanent = SceneManager.GetSceneByName(PERMANENT_SCENE_NAME);

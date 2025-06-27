@@ -60,7 +60,7 @@ namespace PinballBenki.Scene
             await UniTask.Yield(cancellationToken: ct);
 
             // 新しいシーンのルートを取得
-            var nextSceneRoot = GameObject.FindFirstObjectByType<SceneRoot>(FindObjectsInactive.Include);
+            var nextSceneRoot = GameObject.FindFirstObjectByType<SceneRoot>(FindObjectsInactive.Exclude);
             await UniTask.Yield(cancellationToken: ct);
 
             if (nextSceneRoot == null)
@@ -77,9 +77,9 @@ namespace PinballBenki.Scene
             {
                 await loadingEffect.Hide(ct);
             }
+            nextSceneRoot.gameObject.SetActive(true);
             Debug.Log("ChangeScnene_6");
             await nextSceneRoot.Init(ct);
-            nextSceneRoot.gameObject.SetActive(true);
             IsSceneChanging = false;
             _onSceneChanged = nextSceneRoot.ChangeScene;
             Debug.Log("ChangeScnene_7");

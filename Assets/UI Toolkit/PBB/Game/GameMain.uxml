@@ -1,0 +1,12 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement style="flex-grow: 1; flex-direction: row;">
+        <engine:VisualElement name="LeftRoot" style="flex-grow: 1; flex-direction: row; width: 50%; height: 100%;">
+            <engine:VisualElement style="flex-grow: 0; background-color: rgb(63, 63, 63); width: 50%;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="RightRoot" style="flex-grow: 1; flex-direction: row-reverse; height: 100%; width: 50%;">
+            <engine:VisualElement style="flex-grow: 0; background-color: rgb(236, 236, 236); width: 50%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%;">
+                <engine:Button text="ToBack" name="EscapeButton" style="height: 10%; background-color: rgb(243, 141, 65); -unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); -unity-text-align: middle-center; font-size: 42px; text-overflow: clip; color: rgb(255, 255, 255);" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

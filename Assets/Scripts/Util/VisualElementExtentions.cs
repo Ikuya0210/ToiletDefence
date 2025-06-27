@@ -2,6 +2,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine.UIElements;
+using R3;
+using System;
 
 namespace PinballBenki
 {
@@ -95,6 +97,29 @@ namespace PinballBenki
                     await UniTask.Delay(delayMS, cancellationToken: ct);
                 }
             }
+        }
+
+        public static Observable<Unit> OnClickAsObservable(this Button button, CancellationToken token = default)
+        {
+            return Observable.FromEvent(
+                e => button.clicked += e,
+                e => button.clicked -= e, token);
+        }
+
+        public static Observable<T> OnValueChangedAsObservable<T>(this INotifyValueChanged<T> changed,
+            CancellationToken token = default)
+        {
+            if (changed is CallbackEventHandler handler)
+            {
+                return Observable.FromEvent<EventCallback<ChangeEvent<T>>, T>(
+                    convert => evt => convert(evt.newValue),
+                    add => handler.RegisterCallback(add),
+                    remove => handler.UnregisterCallback(remove),
+                    token
+                );
+            }
+
+            throw new ArgumentException($"{changed} does not implement CallbackEventHandler.");
         }
     }
 }

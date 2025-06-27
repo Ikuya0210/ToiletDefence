@@ -26,7 +26,6 @@ namespace PinballBenki.Scene
         // Unityが呼びます
         private void Awake()
         {
-            gameObject.SetActive(false);
             BootTask.Boot(this, destroyCancellationToken).Forget();
         }
 
