@@ -1,0 +1,12 @@
+.StartButtton {
+    -unity-font-definition: resource('Fonts/SmartFontUI03_SDF');
+    background-color: rgb(221, 95, 132);
+    color: rgb(230, 230, 230);
+    width: 35%;
+    align-self: center;
+    align-content: center;
+    justify-content: flex-end;
+    height: 35%;
+    -unity-text-align: middle-center;
+    font-size: 77px;
+}
