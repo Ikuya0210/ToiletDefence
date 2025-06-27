@@ -17,9 +17,9 @@ namespace PinballBenki.ADV
         private Label _npcNameText;
         private Label _mainText;
 
-        public void Init()
+        public async void Init()
         {
-
+            await UniTask.WaitUntil(() => _uIDocument.rootVisualElement != null, cancellationToken: this.GetCancellationTokenOnDestroy());
             _root = _uIDocument.rootVisualElement;
             _selectPanel = _uIDocument.rootVisualElement.Q<VisualElement>("SelectBox");
             _selectYesButton = _uIDocument.rootVisualElement.Q<Button>("SelectYesButton");

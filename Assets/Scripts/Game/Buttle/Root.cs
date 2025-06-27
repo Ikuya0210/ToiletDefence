@@ -17,11 +17,5 @@ namespace PinballBenki.Game
             _guiManager.Init();
             return UniTask.CompletedTask;
         }
-
-        protected override async UniTask Release(CancellationToken ct)
-        {
-            Destroy(_guiManager.gameObject);
-            await UniTask.Yield(cancellationToken: ct);
-        }
     }
 }

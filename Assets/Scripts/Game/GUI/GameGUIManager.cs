@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 using PinballBenki.Scene;
+using Cysharp.Threading.Tasks;
 
 namespace PinballBenki.Game
 {
@@ -9,8 +10,9 @@ namespace PinballBenki.Game
     {
         [SerializeField] private UIDocument _uiDocument;
 
-        public void Init()
+        public async void Init()
         {
+            await UniTask.WaitUntil(() => _uiDocument.rootVisualElement != null, cancellationToken: destroyCancellationToken);
             var root = _uiDocument.rootVisualElement;
             var escapeButton = root.Q<Button>("EscapeButton");
             escapeButton.OnClickAsObservable()
