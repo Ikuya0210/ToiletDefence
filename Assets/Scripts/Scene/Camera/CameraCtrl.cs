@@ -18,7 +18,7 @@ namespace PinballBenki.Scene
         }
 
         public override Func<SceneNames, CancellationToken, UniTask> TransitionTask =>
-            async (sceneName, token) =>
+             (sceneName, token) =>
         {
             switch (sceneName)
             {
@@ -31,7 +31,10 @@ namespace PinballBenki.Scene
                     _gameCamera.gameObject.SetActive(false);
                     break;
             }
-            await UniTask.CompletedTask;
+            return UniTask.CompletedTask;
         };
+
+        internal void SetCameraEditor(SceneNames sceneName)
+        => TransitionTask?.Invoke(sceneName, CancellationToken.None).Forget();
     }
 }

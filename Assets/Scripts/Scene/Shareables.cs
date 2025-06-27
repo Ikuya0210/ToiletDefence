@@ -10,7 +10,7 @@ namespace PinballBenki.Scene
     public static class Shareables
     {
         private static readonly Dictionary<Type, IShareable> _shareables = new();
-        private static readonly List<Func<CancellationToken, UniTask>> _transitionTasks = new();
+        private static readonly List<Func<SceneNames, CancellationToken, UniTask>> _transitionTasks = new();
 
         internal static void Register<T>(T shareable) where T : IShareable
         {
@@ -71,7 +71,7 @@ namespace PinballBenki.Scene
             }
         }
 
-        internal static void RegisterTransitionTask(Func<CancellationToken, UniTask> task)
+        internal static void RegisterTransitionTask(Func<SceneNames, CancellationToken, UniTask> task)
         {
             if (task == null)
             {
@@ -82,9 +82,9 @@ namespace PinballBenki.Scene
             _transitionTasks.Add(task);
         }
 
-        internal static async UniTask ExecuteTransitionTasks(CancellationToken ct)
+        internal static async UniTask ExecuteTransitionTasks(SceneNames nextSceneName, CancellationToken ct)
         {
-            var task = _transitionTasks.Where(t => t != null).Select(t => t(ct));
+            var task = _transitionTasks.Where(t => t != null).Select(t => t(nextSceneName, ct));
             await UniTask.WhenAll(task);
         }
     }

@@ -34,5 +34,28 @@ namespace PinballBenki.Scene
         {
             SceneChanger.ChangeSceneInternal(this, sceneName, destroyCancellationToken).Forget();
         }
+#if UNITY_EDITOR
+        [ContextMenu("Load Permanent Scene")]
+        private void LoadPermanentScene()
+        {
+            var permanent = UnityEngine.SceneManagement.SceneManager.GetSceneByName("Permanent");
+            if (!permanent.isLoaded)
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/Permanent.unity", UnityEditor.SceneManagement.OpenSceneMode.Additive);
+                // CameraCtrlをFind
+                var cameraCtrl = GameObject.FindAnyObjectByType<CameraCtrl>();
+                if (cameraCtrl != null)
+                {
+                    // カメラを切り替え
+                    cameraCtrl.SetCameraEditor(SceneName);
+                }
+                Debug.Log("Permanentシーンをロードしました。");
+            }
+            else
+            {
+                Debug.LogWarning("Permanentシーンはすでにロードされています。");
+            }
+        }
+#endif
     }
 }

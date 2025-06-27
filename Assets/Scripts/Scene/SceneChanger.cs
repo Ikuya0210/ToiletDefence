@@ -46,7 +46,7 @@ namespace PinballBenki.Scene
             Debug.Log("ChangeScnene_3");
 
             await UniTask.WhenAll(
-                Shareables.ExecuteTransitionTasks(ct),
+                Shareables.ExecuteTransitionTasks(nextName, ct),
                 UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(nextName.ToSceneNameString(), UnityEngine.SceneManagement.LoadSceneMode.Additive)
                     .ToUniTask(cancellationToken: ct)
                     .ContinueWith(() =>

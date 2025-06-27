@@ -45,8 +45,13 @@ namespace PinballBenki.Scene
                 if (shareable != null)
                 {
                     Shareables.Register(shareable);
+                    if (initializer.TransitionTask != null)
+                    {
+                        Shareables.RegisterTransitionTask(initializer.TransitionTask);
+                    }
                 }
             }
+            await Shareables.ExecuteTransitionTasks(root.SceneName, ct);
 
             // 戻す
             SceneManager.SetActiveScene(currentScene);
