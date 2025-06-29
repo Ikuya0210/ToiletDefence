@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public interface IADVGUI
     {

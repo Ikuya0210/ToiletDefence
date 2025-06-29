@@ -1,9 +1,9 @@
 {
-    "name": "Scene",
-    "rootNamespace": "PinballBenki.Scene",
+    "name": "GUI",
+    "rootNamespace": "GGGameOver.GUI",
     "references": [
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:0830bb842add743aa924de33f49842c3"
+        "GUID:186bd3f8f859b4ac08f2421d98d1b5ba"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

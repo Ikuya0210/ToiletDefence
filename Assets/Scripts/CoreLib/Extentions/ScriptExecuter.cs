@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace PinballBenki
+namespace GGGameOver
 {
     /// <summary>
     /// 内部のToLowerでコマンドを比較するため、コマンドは大文字小文字を区別しない

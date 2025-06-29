@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
-using PinballBenki.Scene;
+using GGGameOver;
 using Cysharp.Threading.Tasks;
 
 namespace PinballBenki.Title

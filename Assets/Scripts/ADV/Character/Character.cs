@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class Character : MonoBehaviour
     {

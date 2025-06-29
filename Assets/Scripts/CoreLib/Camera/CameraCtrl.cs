@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace PinballBenki.Scene
+namespace GGGameOver
 {
     public sealed class CameraCtrl : ShareableInitializer, IShareable
     {

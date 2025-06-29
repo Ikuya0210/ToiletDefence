@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PinballBenki.Scene;
 using R3;
 using UnityEngine;
 
-namespace PinballBenki.Input
+namespace GGGameOver
 {
     /// <summary>
     /// 個別に入力を制御するためのクラス。

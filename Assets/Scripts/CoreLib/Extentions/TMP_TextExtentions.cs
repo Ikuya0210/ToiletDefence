@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using System.Threading;
 
-namespace PinballBenki
+namespace GGGameOver
 {
     public static class TMP_TextExtentions
     {

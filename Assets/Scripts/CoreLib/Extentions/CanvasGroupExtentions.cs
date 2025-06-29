@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace PinballBenki
+namespace GGGameOver
 {
     public static class CanvasGroupExtentions
     {

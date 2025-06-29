@@ -1,8 +1,7 @@
-using PinballBenki.Input;
 using UnityEngine;
 using R3;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class PlayerCtrl : MonoBehaviour
     {

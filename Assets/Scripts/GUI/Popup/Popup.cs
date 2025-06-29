@@ -1,12 +1,11 @@
 using System;
 using Cysharp.Threading.Tasks;
-using PinballBenki.Scene;
 using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
 using System.Threading;
 
-namespace PinballBenki.GUI
+namespace GGGameOver.GUI
 {
     public sealed class Popup : ShareableInitializer, IShareable
     {

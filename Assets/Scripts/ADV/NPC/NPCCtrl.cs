@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class NPCCtrl : MonoBehaviour, ITalkable
     {

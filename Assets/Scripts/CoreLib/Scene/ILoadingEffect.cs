@@ -2,9 +2,9 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using System;
 
-namespace PinballBenki.Scene
+namespace GGGameOver
 {
-    internal interface IloadingEffect : IShareable
+    public interface IloadingEffect : IShareable
     {
         Type IShareable.ShareType => typeof(IloadingEffect);
         UniTask Show(CancellationToken ct);

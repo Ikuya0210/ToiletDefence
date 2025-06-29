@@ -1,9 +1,8 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using PinballBenki.Scene;
 using UnityEngine;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class ADVRoot : SceneRoot
     {

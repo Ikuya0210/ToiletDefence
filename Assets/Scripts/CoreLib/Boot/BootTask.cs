@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace PinballBenki.Scene
+namespace GGGameOver
 {
     internal static class BootTask
     {

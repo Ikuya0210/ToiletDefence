@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace PinballBenki.Scene
+namespace GGGameOver
 {
     public class LoadingPanel : ShareableInitializer, IShareable, IloadingEffect
     {

@@ -2,7 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace PinballBenki.Scene
+namespace GGGameOver
 {
     public abstract class SceneRoot : MonoBehaviour
     {

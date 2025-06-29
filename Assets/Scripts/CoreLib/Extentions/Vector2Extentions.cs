@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PinballBenki
+namespace GGGameOver
 {
     public static class Vector2Extentions
     {

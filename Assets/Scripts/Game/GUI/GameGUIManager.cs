@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
-using PinballBenki.Scene;
+using GGGameOver;
 using Cysharp.Threading.Tasks;
-using PinballBenki.GUI;
+using GGGameOver.GUI;
 
 namespace PinballBenki.Game
 {

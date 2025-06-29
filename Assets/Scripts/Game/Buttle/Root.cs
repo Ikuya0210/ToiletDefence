@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using PinballBenki.Scene;
+using GGGameOver;
 
 namespace PinballBenki.Game
 {

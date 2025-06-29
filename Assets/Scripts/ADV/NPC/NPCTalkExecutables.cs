@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using System;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     /// <summary>
     /// 基盤

@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class ADVDialogue : MonoBehaviour, IADVDialogue
     {

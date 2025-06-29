@@ -2,11 +2,9 @@ using System;
 using UnityEngine;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using PinballBenki.Input;
-using PinballBenki.Scene;
 using R3;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class DialogueDirector
     {

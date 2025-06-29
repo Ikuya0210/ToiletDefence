@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using R3;
 using System;
 
-namespace PinballBenki
+namespace GGGameOver
 {
     public static class VisualElementExtentions
     {

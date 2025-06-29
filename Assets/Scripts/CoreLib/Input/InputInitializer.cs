@@ -1,7 +1,6 @@
-using PinballBenki.Scene;
 using R3;
 
-namespace PinballBenki.Input
+namespace GGGameOver
 {
     public sealed class InputInitializer : ShareableInitializer
     {

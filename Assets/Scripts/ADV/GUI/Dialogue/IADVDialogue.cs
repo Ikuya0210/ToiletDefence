@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public interface IADVDialogue
     {

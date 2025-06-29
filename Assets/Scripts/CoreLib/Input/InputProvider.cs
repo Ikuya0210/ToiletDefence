@@ -1,9 +1,8 @@
 using System;
-using PinballBenki.Scene;
 using R3;
 using UnityEngine;
 
-namespace PinballBenki.Input
+namespace GGGameOver
 {
     public sealed class InputProvider : IDisposable, IShareable
     {

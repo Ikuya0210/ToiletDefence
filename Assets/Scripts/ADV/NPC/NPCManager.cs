@@ -1,9 +1,8 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using PinballBenki.Input;
 using UnityEngine;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class NPCManager : MonoBehaviour
     {

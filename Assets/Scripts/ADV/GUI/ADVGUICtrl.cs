@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PinballBenki.ADV
+namespace GGGameOver.Toilet.ADV
 {
     public class ADVGUICtrl : MonoBehaviour, IADVGUI
     {

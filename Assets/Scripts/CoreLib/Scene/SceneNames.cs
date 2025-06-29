@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PinballBenki.Scene
+namespace GGGameOver
 {
     public enum SceneNames
     {
