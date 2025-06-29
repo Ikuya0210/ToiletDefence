@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using R3;
 using PinballBenki.Scene;
 using Cysharp.Threading.Tasks;
+using PinballBenki.GUI;
 
 namespace PinballBenki.Game
 {
@@ -15,10 +16,20 @@ namespace PinballBenki.Game
             await UniTask.WaitUntil(() => _uiDocument.rootVisualElement != null, cancellationToken: destroyCancellationToken);
             var root = _uiDocument.rootVisualElement;
             var escapeButton = root.Q<Button>("EscapeButton");
+            var popup = Shareables.Get<Popup>();
             escapeButton.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
-                    SceneChanger.ChangeScene(SceneNames.ADV);
+                    if (popup.IsActive)
+                    {
+                        return;
+                    }
+                    popup.ShowAsync(
+                        "ゲームを終了しますか？",
+                        () => SceneChanger.ChangeScene(SceneNames.ADV),
+                        null,
+                        destroyCancellationToken)
+                        .Forget();
                 })
                 .AddTo(this);
         }

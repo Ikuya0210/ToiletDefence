@@ -1,0 +1,9 @@
+.Button {
+    -unity-font-definition: resource('Fonts/SmartFontUI03_SDF');
+    font-size: 40px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.39);
+    -unity-text-align: middle-center;
+    color: rgb(226, 226, 226);
+}
