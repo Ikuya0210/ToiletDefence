@@ -16,6 +16,8 @@ namespace PinballBenki.Game
             await UniTask.WaitUntil(() => _uiDocument.rootVisualElement != null, cancellationToken: destroyCancellationToken);
             var root = _uiDocument.rootVisualElement;
             var escapeButton = root.Q<Button>("EscapeButton");
+            var pointLabel = root.Q<Label>("PointLabel");
+            var timerLabel = root.Q<Label>("TimerLabel");
             var popup = Shareables.Get<Popup>();
             escapeButton.OnClickAsObservable()
                 .Subscribe(_ =>

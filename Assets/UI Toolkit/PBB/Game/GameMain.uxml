@@ -3,8 +3,9 @@
     <engine:VisualElement style="flex-grow: 1; flex-direction: column;">
         <engine:VisualElement style="flex-grow: 1; flex-direction: row; width: 100%; height: 50%;">
             <engine:VisualElement style="flex-grow: 0; background-color: rgb(63, 63, 63); width: 100%; height: 20%; flex-direction: row-reverse;">
-                <engine:Button text="ToBack" name="EscapeButton" style="height: auto; background-color: rgb(243, 141, 65); -unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); -unity-text-align: middle-center; font-size: 42px; text-overflow: clip; color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
-                <engine:Label text="Chinpo: 25000" name="PointLabel" class="PointLabel" style="-unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); font-size: 48px; -unity-text-align: middle-left; width: 30%; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; color: rgb(212, 212, 212);" />
+                <engine:Button text="ToBack" name="EscapeButton" style="height: auto; background-color: rgb(243, 141, 65); -unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); -unity-text-align: middle-center; font-size: 42px; text-overflow: clip; color: rgb(255, 255, 255); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-right: 20px; padding-left: 20px;" />
+                <engine:Label text="Chinpo: 25000" name="PointLabel" style="-unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); font-size: 48px; -unity-text-align: middle-left; width: 30%; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; color: rgb(212, 212, 212);" />
+                <engine:Label text="20:22:022" name="TimerLabel" style="-unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); font-size: 48px; -unity-text-align: middle-left; width: 30%; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; color: rgb(212, 212, 212);" />
             </engine:VisualElement>
         </engine:VisualElement>
         <engine:VisualElement style="flex-grow: 1; flex-direction: row-reverse; height: 50%; width: 100%;" />
