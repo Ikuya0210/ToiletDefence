@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using R3;
-using GGGameOver;
 using Cysharp.Threading.Tasks;
 using GGGameOver.GUI;
 
-namespace PinballBenki.Game
+namespace GGGameOver.Toilet.Game
 {
     public class GameGUIManager : MonoBehaviour
     {
