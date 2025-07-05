@@ -6,32 +6,38 @@ namespace GGGameOver.Toilet.Game
 {
     public static class Character
     {
-        private static uint _idCounter = 0;
-
-        public static CharacterModel Create(CharacterEntity entity, Transform parent)
+        public static CharacterModel Create(CharacterEntity entity, Transform parent, bool isAlly)
         {
             if (entity == null)
             {
                 Debug.LogError("空のCharacterEntityが渡されたので、nullを返します。");
                 return null;
             }
-            _idCounter++;
+            uint id = IDProvider.GenerateID();
 
             var obj = new GameObject(entity.Name);
             obj.transform.SetParent(parent);
-            var renderer = obj.AddComponent<SpriteRenderer>();
-            renderer.sprite = entity.Sprite;
-            renderer.transform.localScale = entity.SpriteScale;
+            TargetJudge.Register(obj.transform, id, isAlly);
 
-            var model = new CharacterModel(entity, _idCounter);
+            var model = new CharacterModel(entity, id);
             var view = obj.AddComponent<CharacterView>();
-            view.Init(entity, _idCounter);
+            view.Init(entity, id);
 
             var presenter = new CharacterPresenter();
             presenter.AddTo(obj);
             presenter.Bind(model, view);
 
             return model;
+        }
+
+        public enum State
+        {
+            None = 0,
+            Idle, // ターゲットがいない状態
+            Moving, // ターゲットに向かって移動中
+            Attacking, // ターゲットに攻撃中
+            Rest, // 攻撃後などで休憩中
+            Dead // 死亡状態
         }
     }
 }

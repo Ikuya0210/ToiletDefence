@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
+using System.Threading;
 
 namespace GGGameOver.Toilet.Game
 {
@@ -10,28 +11,42 @@ namespace GGGameOver.Toilet.Game
         private readonly List<CharacterModel> _characters = new();
         private readonly Queue<CharacterModel> _addCharacterQueue = new();
 
-
         public void Init()
         {
             _characters.Clear();
             _addCharacterQueue.Clear();
+
+            UpdateProcess(destroyCancellationToken).Forget();
         }
 
         public void AddRequest(CharacterEntity entity)
         {
-            var c = Character.Create(entity, this.transform);
+            var c = Character.Create(entity, this.transform, false);
             c.AddTo(this);
             _addCharacterQueue.Enqueue(c);
         }
 
-        private void UpdateProcess()
+        private async UniTask UpdateProcess(CancellationToken ct)
         {
-            while (_addCharacterQueue.Count > 0)
+            while (!ct.IsCancellationRequested)
             {
-                var character = _addCharacterQueue.Dequeue();
-                if (character != null)
+                await UniTask.Yield(ct);
+
+                while (_addCharacterQueue.Count > 0)
                 {
-                    _characters.Add(character);
+                    var character = _addCharacterQueue.Dequeue();
+                    if (character != null)
+                    {
+                        _characters.Add(character);
+                    }
+                }
+
+                foreach (var character in _characters)
+                {
+                    if (character.State == Character.State.Idle)
+                    {
+                        character.SetTarget(TargetJudge.GetTargetId(true));
+                    }
                 }
             }
         }

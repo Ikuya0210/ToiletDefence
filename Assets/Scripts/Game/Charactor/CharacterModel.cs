@@ -1,23 +1,32 @@
 using System;
+using R3;
 using UnityEngine;
 
 namespace GGGameOver.Toilet.Game
 {
     public class CharacterModel : IDisposable
     {
-        private string _name;
+        public Character.State State { get; private set; }
+        private readonly Subject<uint> _move = new();
+        public Observable<uint> Move => _move;// 移動先のidを通知する
+        public int Id => (int)_id;
+        private readonly uint _id;
+        private readonly int _maxHealth;
+        private readonly int _attackPower; // Assuming a default attack power
         private int _health;
 
 
         public CharacterModel(CharacterEntity entity, uint id)
         {
-            _name = entity.Name;
-            _health = 100;
+            _id = id;
+            _health = _maxHealth = entity.Health;
+            _attackPower = entity.AttackPower;
+            State = Character.State.Idle;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _move.Dispose();
         }
 
         public void TakeDamage(int damage)
@@ -26,24 +35,20 @@ namespace GGGameOver.Toilet.Game
             if (_health <= 0)
             {
                 _health = 0;
-                SetState(State.Dead);
+                SetState(Character.State.Dead);
             }
         }
 
-        private void SetState(State newState)
+        public void SetTarget(uint targetId)
         {
-
+            // Notify the move subject with the target ID
+            _move.OnNext(targetId);
+            SetState(Character.State.Moving);
         }
 
-
-        private enum State
+        public void SetState(Character.State newState)
         {
-            None = 0,
-            Idle,
-            Moving,
-            Attacking,
-            Rest,
-            Dead
+            State = newState;
         }
     }
 }

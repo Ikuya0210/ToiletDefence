@@ -8,11 +8,15 @@ namespace GGGameOver.Toilet.Game
     {
         protected override SceneNames SceneName => SceneNames.Game;
         [SerializeField] private GameGUIManager _guiManager;
+        [SerializeField] private Tower _tower;
         [SerializeField] private CharacterManager _characterManager;
         [SerializeField] private ScheduleExecuter _scheduleExecuter;
 
         protected override UniTask InitBeforeShow(CancellationToken ct)
         {
+            IDProvider.Reset();
+
+            _tower.Init();
             _characterManager.Init();
             _guiManager.Init();
             return UniTask.CompletedTask;
@@ -23,6 +27,12 @@ namespace GGGameOver.Toilet.Game
             // デュエル開始ィィィ
             _scheduleExecuter.Init(_characterManager.AddRequest);
             return base.Init(ct);
+        }
+
+        void OnDestroy()
+        {
+            IDProvider.Reset();
+            TargetJudge.ClearList();
         }
     }
 }
