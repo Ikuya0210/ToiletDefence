@@ -70,7 +70,6 @@ namespace GGGameOver.Toilet.Game
             // ループで近づく
             while (target != null || !ct.IsCancellationRequested)
             {
-                await UniTask.Yield(PlayerLoopTiming.FixedUpdate, ct);
                 if (target == null)
                 {
                     return false;
@@ -82,6 +81,7 @@ namespace GGGameOver.Toilet.Game
                 {
                     return true;
                 }
+                await UniTask.Yield(PlayerLoopTiming.FixedUpdate, ct);
             }
             return false;
         }

@@ -4,7 +4,7 @@ using R3;
 
 namespace GGGameOver.Toilet.Game
 {
-    public class Tower : MonoBehaviour, ITakeDamage
+    public class Tower : ObjectPool<Water>, ITakeDamage
     {
         public Action OnDead;
         public uint ID { get; private set; }
@@ -19,6 +19,7 @@ namespace GGGameOver.Toilet.Game
             _currentHealth = maxHealth;
             _healthGauge.Init(maxHealth);
 
+            InitPool(3);
 
             // 検索半径
             float searchRadius = 1.0f;
@@ -28,6 +29,9 @@ namespace GGGameOver.Toilet.Game
                 .Subscribe(_ =>
                     {
                         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        var w = GetPooledObject();
+                        w.transform.position = this.transform.position;
+                        w.Launch(mouseWorldPos);
                         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(mouseWorldPos, searchRadius, 1 << Character.EnemyCharacterLayer);
 
                         foreach (var col in hitColliders)

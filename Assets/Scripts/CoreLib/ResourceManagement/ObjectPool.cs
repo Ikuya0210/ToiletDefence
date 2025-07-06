@@ -19,9 +19,6 @@ namespace GGGameOver
             {
                 var obj = GameObject.Instantiate(_pooledObject);
                 obj.OnReleaseToPool = (o) => ReturnToPool(o);
-                obj.OnDestroyAsObservable()
-                    .Subscribe(_ => obj.Cancel())
-                    .AddTo(obj);
                 obj.gameObject.SetActive(false);
                 _stack.Push(obj);
             }
@@ -33,9 +30,6 @@ namespace GGGameOver
             {
                 T obj = Instantiate(_pooledObject);
                 obj.OnReleaseToPool = (o) => ReturnToPool(o);
-                obj.OnDestroyAsObservable()
-                    .Subscribe(_ => obj.Cancel())
-                    .AddTo(obj);
                 return obj;
             }
             T nextInstance = _stack.Pop();
@@ -74,6 +68,11 @@ namespace GGGameOver
                 _releaseCancellationTokenSource.Dispose();
                 _releaseCancellationTokenSource = null;
             }
+        }
+
+        void OnDestroy()
+        {
+            Cancel();
         }
     }
 }
