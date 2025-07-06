@@ -11,7 +11,7 @@ namespace GGGameOver.Toilet.Game
             InitPool(1);
         }
 
-        public CharacterModel Create(CharacterEntity entity, Transform parent, bool isAlly)
+        public CharacterModel Create(CharacterEntity entity, Transform parent, bool isPlayers)
         {
             if (entity == null)
             {
@@ -21,12 +21,13 @@ namespace GGGameOver.Toilet.Game
             uint id = IDProvider.GenerateID();
 
             var viewObj = GetPooledObject();
+            viewObj.gameObject.layer = isPlayers ? Character.PlayerCharacterLayer : Character.EnemyCharacterLayer;
             viewObj.transform.SetParent(parent);
             viewObj.name = $"{entity.Name}_{id}";
-            TargetJudge.Register(viewObj.transform, id, isAlly);
+            TargetJudge.Register(viewObj.transform, id, isPlayers);
 
             var model = new CharacterModel(entity, id);
-            viewObj.Init(entity, id);
+            viewObj.Init(entity, id, isPlayers);
 
             var presenter = new CharacterPresenter();
             presenter.AddTo(viewObj);

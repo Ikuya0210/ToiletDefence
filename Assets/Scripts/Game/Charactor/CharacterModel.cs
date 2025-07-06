@@ -109,7 +109,12 @@ namespace GGGameOver.Toilet.Game
             }
             else
             {
-                SetState(Character.State.Idle);
+                UniTask.Delay((int)(_restTime * 300)).ContinueWith(() =>
+                {
+                    SetState(Character.State.Idle);
+                    // 死亡確認用の仮
+                    TakeDamage(30); // Example damage, replace with actual logic
+                }).Forget();
             }
         }
     }

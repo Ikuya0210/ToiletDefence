@@ -31,6 +31,11 @@ namespace GGGameOver.Toilet.Game
                 .Subscribe(isAttackCompleted => model.OnAttackCompleted(isAttackCompleted))
                 .AddTo(_disposables);
 
+            // damage
+            view.OnDamageReceived
+                .Subscribe(damage => model.TakeDamage(damage))
+                .AddTo(_disposables);
+
             // dead
             model.Dead
                 .Subscribe(_ => view.Dead())

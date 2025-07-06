@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - Ball
+  - PlayerCharacter
+  - EnemyCharacter
   - 
   - Player
   - Character

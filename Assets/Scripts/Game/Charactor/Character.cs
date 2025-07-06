@@ -6,6 +6,8 @@ namespace GGGameOver.Toilet.Game
 {
     public static class Character
     {
+        public readonly static int PlayerCharacterLayer = LayerMask.NameToLayer("PlayerCharacter");
+        public readonly static int EnemyCharacterLayer = LayerMask.NameToLayer("EnemyCharacter");
         public const float MinRestTime = 0.3f;
         public enum State
         {

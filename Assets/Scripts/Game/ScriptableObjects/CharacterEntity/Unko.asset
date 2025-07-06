@@ -17,5 +17,5 @@ MonoBehaviour:
   _spriteScale: {x: 1, y: 1}
   _health: 100
   _attackPower: 10
-  _moveSpeed: 0.1
+  _moveSpeed: 3
   _restTime: 1
