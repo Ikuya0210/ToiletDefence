@@ -22,3 +22,15 @@ MonoBehaviour:
   - _time: 4
     _position: {x: 0, y: 0}
     _characterEntity: {fileID: 11400000, guid: 21c0fecdf3da9498eb77c8ca2379ae0b, type: 2}
+  - _time: 2
+    _position: {x: 0, y: 0}
+    _characterEntity: {fileID: 11400000, guid: 21c0fecdf3da9498eb77c8ca2379ae0b, type: 2}
+  - _time: 1
+    _position: {x: 0, y: 0}
+    _characterEntity: {fileID: 11400000, guid: 21c0fecdf3da9498eb77c8ca2379ae0b, type: 2}
+  - _time: 1
+    _position: {x: 0, y: 0}
+    _characterEntity: {fileID: 11400000, guid: 21c0fecdf3da9498eb77c8ca2379ae0b, type: 2}
+  - _time: 1
+    _position: {x: 0, y: 0}
+    _characterEntity: {fileID: 11400000, guid: 21c0fecdf3da9498eb77c8ca2379ae0b, type: 2}

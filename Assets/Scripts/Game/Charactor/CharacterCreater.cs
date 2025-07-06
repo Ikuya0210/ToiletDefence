@@ -25,6 +25,12 @@ namespace GGGameOver.Toilet.Game
             viewObj.gameObject.layer = isPlayers ? Character.PlayerCharacterLayer : Character.EnemyCharacterLayer;
             viewObj.transform.SetParent(parent);
             viewObj.transform.position = _initialPosAnchor != null ? _initialPosAnchor.position : Vector3.zero;
+            // 揺らぎを持たせる
+            viewObj.transform.position += new Vector3(
+                Random.Range(-0.5f, 0.5f),
+                Random.Range(-0.8f, 0.8f),
+                0
+            );
             viewObj.transform.localRotation = Quaternion.identity;
             viewObj.name = $"{entity.Name}_{id}";
             TargetJudge.Register(viewObj.transform, id, isPlayers);

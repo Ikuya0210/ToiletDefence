@@ -37,7 +37,7 @@ namespace GGGameOver.Toilet.Game
             _renderer.sprite = entity.Sprite;
             _renderer.color = Color.white;
             _renderer.transform.localScale = entity.SpriteScale;
-            _capsuleCollider.size = new Vector2(entity.SpriteScale.x, entity.SpriteScale.y);
+            _capsuleCollider.size = new Vector2(_renderer.sprite.bounds.size.x, _renderer.sprite.bounds.size.y);
 
             _moveSpeed = entity.MoveSpeed;
 
