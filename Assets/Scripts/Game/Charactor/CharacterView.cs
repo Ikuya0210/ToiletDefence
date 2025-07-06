@@ -27,6 +27,7 @@ namespace GGGameOver.Toilet.Game
 
         private bool _isPlayers;
         private int _attackableLayer; //攻撃先のレイヤー
+        private bool _isTakingDamage = false;
 
 
         public void Init(CharacterEntity entity, uint id, bool isPlayers)
@@ -34,6 +35,7 @@ namespace GGGameOver.Toilet.Game
             _id = id;
             _isPlayers = isPlayers;
             _renderer.sprite = entity.Sprite;
+            _renderer.color = Color.white;
             _renderer.transform.localScale = entity.SpriteScale;
             _capsuleCollider.size = new Vector2(entity.SpriteScale.x, entity.SpriteScale.y);
 
@@ -44,6 +46,7 @@ namespace GGGameOver.Toilet.Game
             _moveCompleted.AddTo(this);
             _attackCompleted.AddTo(this);
             _isDead = false;
+            _isTakingDamage = false;
         }
 
         public void SetTarget(uint targetId)
@@ -91,7 +94,7 @@ namespace GGGameOver.Toilet.Game
 
             async UniTask<bool> AttackProcess(CancellationToken ct)
             {
-                Debug.Log($"{gameObject.name} 攻撃開始: {attackPower}");
+                _renderer.color = Color.blue; // 攻撃中の色に変更
                 // 円形のRayを前方に飛ばして
                 Vector2 direction = _isPlayers ? Vector2.right : Vector2.left;
                 float radius = _capsuleCollider.size.x / 2f;
@@ -116,15 +119,29 @@ namespace GGGameOver.Toilet.Game
                 }
 
                 await UniTask.Delay(1500, cancellationToken: ct);
-                // 攻撃処理
-                Debug.Log($"{gameObject.name} 攻撃完了: {attackPower}");
+                _renderer.color = Color.white; // 攻撃後の色を元に戻す
                 return true;
             }
         }
 
         public void TakeDamage(int damage)
         {
-            _damageReceived.OnNext(damage);
+            if (_isDead || damage <= 0 || _isTakingDamage)
+            {
+                return;
+            }
+
+            TakeDamageProcess(damage, releaseCancellationToken).Forget();
+
+            async UniTask TakeDamageProcess(int damage, CancellationToken ct)
+            {
+                _isTakingDamage = true;
+                _renderer.color = Color.red;
+                _damageReceived.OnNext(damage);
+                await UniTask.Delay(300, cancellationToken: ct);
+                _renderer.color = Color.white;
+                _isTakingDamage = false;
+            }
         }
 
         public void Dead()

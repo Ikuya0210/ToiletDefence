@@ -6,6 +6,7 @@ namespace GGGameOver.Toilet.Game
 {
     public class CharacterCreater : ObjectPool<CharacterView>
     {
+        [SerializeField] private Transform _initialPosAnchor;
         public void Init()
         {
             InitPool(1);
@@ -23,7 +24,7 @@ namespace GGGameOver.Toilet.Game
             var viewObj = GetPooledObject();
             viewObj.gameObject.layer = isPlayers ? Character.PlayerCharacterLayer : Character.EnemyCharacterLayer;
             viewObj.transform.SetParent(parent);
-            viewObj.transform.position = Vector3.zero;
+            viewObj.transform.position = _initialPosAnchor != null ? _initialPosAnchor.position : Vector3.zero;
             viewObj.transform.localRotation = Quaternion.identity;
             viewObj.name = $"{entity.Name}_{id}";
             TargetJudge.Register(viewObj.transform, id, isPlayers);
