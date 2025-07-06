@@ -11,6 +11,7 @@ namespace GGGameOver.Toilet.Game
         [SerializeField] private int _health = 100;
         [SerializeField] private int _attackPower = 10;
         [SerializeField] private float _moveSpeed = 0.1f;
+        [SerializeField] private float _restTime = 1;
 
         public string Name => _name;
         public Sprite Sprite => _sprite;
@@ -18,5 +19,6 @@ namespace GGGameOver.Toilet.Game
         public int Health => _health;
         public int AttackPower => _attackPower;
         public float MoveSpeed => _moveSpeed;
+        public float RestTime => _restTime;
     }
 }

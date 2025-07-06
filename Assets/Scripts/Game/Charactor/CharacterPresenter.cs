@@ -1,6 +1,5 @@
 using System;
 using R3;
-using UnityEngine;
 
 namespace GGGameOver.Toilet.Game
 {
@@ -15,26 +14,26 @@ namespace GGGameOver.Toilet.Game
 
         public void Bind(CharacterModel model, CharacterView view)
         {
+            // move
             model.Move
-                .Subscribe(targetId =>
-                {
-                    // Notify the view to move to the target ID
-                    view.SetTarget(targetId);
-                })
+                .Subscribe(targetId => view.SetTarget(targetId))
                 .AddTo(_disposables);
 
             view.OnMoveCompleted
-                .Subscribe(isCompleted =>
-                {
-                    if (isCompleted)
-                    {
-                        model.SetState(Character.State.Rest);
-                    }
-                    else
-                    {
-                        model.SetState(Character.State.Idle);
-                    }
-                })
+                .Subscribe(isArrived => model.OnMoveCompleted(isArrived))
+                .AddTo(_disposables);
+
+            // attack
+            model.Attack
+                .Subscribe(attackPower => view.Attack(attackPower))
+                .AddTo(_disposables);
+            view.OnAttackCompleted
+                .Subscribe(isAttackCompleted => model.OnAttackCompleted(isAttackCompleted))
+                .AddTo(_disposables);
+
+            // dead
+            model.Dead
+                .Subscribe(_ => view.Dead())
                 .AddTo(_disposables);
         }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using R3.Triggers;
 using UnityEngine;
+using R3;
 
 namespace GGGameOver.Toilet.Game
 {
@@ -21,7 +23,13 @@ namespace GGGameOver.Toilet.Game
             }
         }
 
-        public static void Register(Transform target, uint id, bool isAlly)
+        /// <summary>
+        /// idリストに登録する。OnDestroyAsObservable()を使って、破棄時にエントリを削除している。Unregister()を使用してもよい。
+        /// </summary>
+        /// <param name="target">登録したいもの</param>
+        /// <param name="id">生成時に取得したもの</param>
+        /// <param name="isPlayers">プレイヤーにとって味方かどうか</param>
+        public static void Register(Transform target, uint id, bool isPlayers)
         {
             if (target == null)
             {
@@ -33,26 +41,44 @@ namespace GGGameOver.Toilet.Game
                 Debug.LogError("Id is zero");
                 return;
             }
+
+            // 重複チェック
             if (_entries.Exists(entry => entry.Id == id))
             {
                 _entries.RemoveAll(entry => entry.Id == id);
                 Debug.LogWarning($"Target with ID {id} already exists. Replacing it.");
                 return;
             }
-            _entries.Add(new Target(target, id, isAlly));
+
+            // 追加
+            _entries.Add(new Target(target, id, isPlayers));
+
+            // 破棄時にエントリを削除
+            target.gameObject.OnDestroyAsObservable()
+                .Subscribe(_ => _entries.RemoveAll(entry => entry.Id == id))
+                .AddTo(target);
         }
 
-        public static uint GetTargetId(bool isAlly)
+        public static void Unregister(uint id)
+        {
+            _entries.RemoveAll(entry => entry.Id == id);
+        }
+
+        /// <summary>
+        /// 指定されたチームのターゲットIDを取得する。
+        /// </summary>
+        /// <param name="isPlayers">プレイヤーにとって味方かどうか</param>     
+        public static uint GetTargetId(bool isPlayers)
         {
             foreach (var entry in _entries)
             {
-                if (entry.IsAlly == isAlly)
+                if (entry.IsAlly == isPlayers)
                 {
                     return entry.Id;
                 }
             }
             Debug.LogWarning("No target found for the specified team");
-            return 0; // Return 0 if no target is found
+            return 0;
         }
 
         public static Transform GetTargetTransform(uint id)
@@ -65,7 +91,7 @@ namespace GGGameOver.Toilet.Game
                 }
             }
             Debug.LogWarning($"No target found with ID: {id}");
-            return null; // Return null if no target is found
+            return null;
         }
 
         public static void ClearList()

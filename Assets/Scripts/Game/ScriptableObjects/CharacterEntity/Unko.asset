@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a02c02c800548f4b2063ead1cc651e, type: 3}
   m_Name: Unko
   m_EditorClassIdentifier: 
-  _name: 
+  _name: "\u30B9\u30E9\u30A4\u30E0"
   _sprite: {fileID: 368543389579951487, guid: 60173ca064a85455198ccfacd559f010, type: 3}
   _spriteScale: {x: 1, y: 1}
   _health: 100
   _attackPower: 10
   _moveSpeed: 0.1
+  _restTime: 1
