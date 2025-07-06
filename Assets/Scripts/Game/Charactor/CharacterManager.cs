@@ -3,14 +3,17 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
 using System.Threading;
+using System;
 
 namespace GGGameOver.Toilet.Game
 {
     public sealed class CharacterManager : MonoBehaviour
     {
+        public Action<int> OnGetPoint;
         [SerializeField] private CharacterCreater _creater;
         private readonly List<CharacterModel> _characters = new();
         private readonly Queue<CharacterModel> _addCharacterQueue = new();
+        private CancellationTokenSource _loopCts;
 
         public void Init()
         {
@@ -19,7 +22,8 @@ namespace GGGameOver.Toilet.Game
 
             _creater.Init();
 
-            UpdateProcess(destroyCancellationToken).Forget();
+            _loopCts = new();
+            UpdateProcess(_loopCts.Token).Forget();
         }
 
         public void AddRequest(CharacterEntity entity)
@@ -69,6 +73,7 @@ namespace GGGameOver.Toilet.Game
                     var character = _disposeQueue.Dequeue();
                     if (character != null)
                     {
+                        OnGetPoint?.Invoke(character.DeadPoint);
                         _characters.Remove(character);
                         character.Dispose();
                     }
@@ -76,8 +81,20 @@ namespace GGGameOver.Toilet.Game
             }
         }
 
+        public void StopLoop()
+        {
+            if (_loopCts != null)
+            {
+                _loopCts.Cancel();
+                _loopCts.Dispose();
+                _loopCts = null;
+            }
+        }
+
         void OnDestroy()
         {
+            StopLoop();
+
             for (int i = 0; i < _characters.Count; i++)
             {
                 _characters[i].Dispose();

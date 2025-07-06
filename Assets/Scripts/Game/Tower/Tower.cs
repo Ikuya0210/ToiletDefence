@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
+using R3;
 
 namespace GGGameOver.Toilet.Game
 {
     public class Tower : MonoBehaviour, ITakeDamage
     {
+        public Action OnDead;
         public uint ID { get; private set; }
         [SerializeField] private HealthGauge _healthGauge;
         [SerializeField] private int maxHealth = 100;
@@ -15,15 +18,41 @@ namespace GGGameOver.Toilet.Game
             TargetJudge.Register(transform, ID, true);
             _currentHealth = maxHealth;
             _healthGauge.Init(maxHealth);
+
+
+            // 検索半径
+            float searchRadius = 1.0f;
+
+            var input = Shareables.Get<InputProvider>();
+            input.OnDecide
+                .Subscribe(_ =>
+                    {
+                        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(mouseWorldPos, searchRadius, 1 << Character.EnemyCharacterLayer);
+
+                        foreach (var col in hitColliders)
+                        {
+                            if (col.TryGetComponent<ITakeDamage>(out var obj))
+                            {
+                                obj.TakeDamage(50);
+                            }
+                        }
+                    })
+                    .AddTo(this);
         }
 
         public void TakeDamage(int damage)
         {
             if (damage <= 0) return;
 
-            Debug.Log($"{gameObject.name} ダメージを受けた: {damage}");
             _currentHealth -= damage;
             _healthGauge.UpdateGauge(_currentHealth, maxHealth);
+            if (_currentHealth <= 0)
+            {
+                _currentHealth = 0;
+                _healthGauge.UpdateGauge(0, maxHealth);
+                OnDead?.Invoke();
+            }
         }
     }
 }

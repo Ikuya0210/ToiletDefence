@@ -9,14 +9,16 @@ namespace GGGameOver.Toilet.Game
     public class GameGUIManager : MonoBehaviour
     {
         [SerializeField] private UIDocument _uiDocument;
+        private Label _pointLabel;
+        private Label _timerLabel;
 
         public async void Init()
         {
             await UniTask.WaitUntil(() => _uiDocument.rootVisualElement != null, cancellationToken: destroyCancellationToken);
             var root = _uiDocument.rootVisualElement;
             var escapeButton = root.Q<Button>("EscapeButton");
-            var pointLabel = root.Q<Label>("PointLabel");
-            var timerLabel = root.Q<Label>("TimerLabel");
+            _pointLabel = root.Q<Label>("PointLabel");
+            _timerLabel = root.Q<Label>("TimerLabel");
             var popup = Shareables.Get<Popup>();
             escapeButton.OnClickAsObservable()
                 .Subscribe(_ =>
@@ -33,6 +35,17 @@ namespace GGGameOver.Toilet.Game
                         .Forget();
                 })
                 .AddTo(this);
+        }
+
+        public async void UpdatePoint(int point)
+        {
+            await UniTask.WaitUntil(() => _pointLabel != null, cancellationToken: destroyCancellationToken);
+            _pointLabel.text = $"ポイント: {point}";
+        }
+
+        public void ShowGameOver()
+        {
+            Debug.Log("Game Over");
         }
     }
 }

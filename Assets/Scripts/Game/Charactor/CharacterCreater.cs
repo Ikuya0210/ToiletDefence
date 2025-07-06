@@ -23,6 +23,8 @@ namespace GGGameOver.Toilet.Game
             var viewObj = GetPooledObject();
             viewObj.gameObject.layer = isPlayers ? Character.PlayerCharacterLayer : Character.EnemyCharacterLayer;
             viewObj.transform.SetParent(parent);
+            viewObj.transform.position = Vector3.zero;
+            viewObj.transform.localRotation = Quaternion.identity;
             viewObj.name = $"{entity.Name}_{id}";
             TargetJudge.Register(viewObj.transform, id, isPlayers);
 
@@ -30,7 +32,7 @@ namespace GGGameOver.Toilet.Game
             viewObj.Init(entity, id, isPlayers);
 
             var presenter = new CharacterPresenter();
-            presenter.AddTo(viewObj);
+            presenter.RegisterTo(viewObj.releaseCancellationToken);
             presenter.Bind(model, viewObj);
 
             return model;

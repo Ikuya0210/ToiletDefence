@@ -9,6 +9,7 @@ namespace GGGameOver.Toilet.Game
     public class CharacterModel : IDisposable
     {
         public int Id => (int)_id;
+        public readonly int DeadPoint;
         public Character.State State { get; private set; }
         public Observable<uint> Move => _move;// 移動先のidを通知する
         public Observable<int> Attack => _attack; // 攻撃力を通知する
@@ -17,7 +18,6 @@ namespace GGGameOver.Toilet.Game
         private readonly Subject<uint> _move = new();
         private readonly Subject<int> _attack = new();
         private readonly Subject<Unit> _dead = new();
-
         private readonly CancellationTokenSource _cts = new();
 
         private readonly uint _id;
@@ -31,6 +31,7 @@ namespace GGGameOver.Toilet.Game
         {
             _id = id;
             _health = _maxHealth = entity.Health;
+            DeadPoint = entity.DeadPoint;
             _attackPower = entity.AttackPower;
             _restTime = Mathf.Max(entity.RestTime, Character.MinRestTime);
             State = Character.State.Idle;

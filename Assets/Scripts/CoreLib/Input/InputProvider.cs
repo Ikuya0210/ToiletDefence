@@ -15,6 +15,8 @@ namespace GGGameOver
         private Subject<Unit> _onFlip_R;
         private Subject<Vector2> _onNavigate;
         private Subject<Vector2> _onMove;
+        private Subject<Unit> _onUIClickedUp;
+        private Subject<Unit> _onUIClickedDown;
 
         public Observable<Unit> OnDecide => _onDecide;
         public Observable<Unit> OnBack => _onBack;
@@ -35,6 +37,8 @@ namespace GGGameOver
                 Mathf.RoundToInt(v2.x * 0.5f) * 2,
                 Mathf.RoundToInt(v2.y * 0.5f) * 2);
         });
+        public Observable<Unit> OnUIClickedUp => _onUIClickedUp;
+        public Observable<Unit> OnUIClickedDown => _onUIClickedDown;
 
         private readonly InputActions _inputActions;
         private readonly CompositeDisposable _disposables;
@@ -53,6 +57,8 @@ namespace GGGameOver
             _onFlip_R = new();
             _onNavigate = new();
             _onMove = new();
+            _onUIClickedUp = new();
+            _onUIClickedDown = new();
 
             _disposables.Add(_onDecide);
             _disposables.Add(_onBack);
@@ -61,6 +67,8 @@ namespace GGGameOver
             _disposables.Add(_onFlip_R);
             _disposables.Add(_onNavigate);
             _disposables.Add(_onMove);
+            _disposables.Add(_onUIClickedUp);
+            _disposables.Add(_onUIClickedDown);
 
             _inputActions.Player.Decide.performed += ctx => _onDecide.OnNext(Unit.Default);
             _inputActions.Player.Back.performed += ctx => _onBack.OnNext(Unit.Default);
@@ -69,6 +77,9 @@ namespace GGGameOver
             _inputActions.Player.Flip_R.performed += ctx => _onFlip_R.OnNext(Unit.Default);
             _inputActions.Player.Navigate.performed += ctx => _onNavigate.OnNext(ctx.ReadValue<Vector2>());
             _inputActions.Player.Navigate.canceled += ctx => _onNavigate.OnNext(Vector2.zero);
+
+            _inputActions.UI.Click.canceled += ctx => _onUIClickedUp.OnNext(Unit.Default);
+            _inputActions.UI.Click.started += ctx => _onUIClickedDown.OnNext(Unit.Default);
 
             Observable.EveryUpdate()
                 .Select(_ => _inputActions.Player.Navigate.ReadValue<Vector2>())

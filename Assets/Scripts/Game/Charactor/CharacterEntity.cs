@@ -12,6 +12,7 @@ namespace GGGameOver.Toilet.Game
         [SerializeField] private int _attackPower = 10;
         [SerializeField] private float _moveSpeed = 0.1f;
         [SerializeField] private float _restTime = 1;
+        [SerializeField] private int _deadPoint = 30; // 死亡時のポイント
 
         public string Name => _name;
         public Sprite Sprite => _sprite;
@@ -20,5 +21,6 @@ namespace GGGameOver.Toilet.Game
         public int AttackPower => _attackPower;
         public float MoveSpeed => _moveSpeed;
         public float RestTime => _restTime;
+        public int DeadPoint => _deadPoint;
     }
 }

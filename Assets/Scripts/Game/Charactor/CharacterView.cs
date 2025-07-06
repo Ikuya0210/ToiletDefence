@@ -103,16 +103,16 @@ namespace GGGameOver.Toilet.Game
                     if (hit.collider.TryGetComponent<ITakeDamage>(out var target))
                     {
                         target.TakeDamage(attackPower);
-                        Debug.Log($"{gameObject.name} 攻撃ヒット: {target}");
+                        Debug.Log($"{gameObject.name}の攻撃がヒット: {hit.collider.name}");
                     }
                     else
                     {
-                        Debug.LogWarning($"{gameObject.name} 攻撃対象がITakeDamageを実装していない: {hit.collider}");
+                        Debug.LogWarning($"{gameObject.name}の攻撃対象がITakeDamageを実装していない: {hit.collider.name}");
                     }
                 }
                 else
                 {
-                    Debug.Log($"{gameObject.name} 攻撃ミス: {hit.collider}");
+                    Debug.Log($"{gameObject.name} 攻撃ミス");
                 }
 
                 await UniTask.Delay(1500, cancellationToken: ct);

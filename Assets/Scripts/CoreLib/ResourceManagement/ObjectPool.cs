@@ -58,7 +58,7 @@ namespace GGGameOver
     {
         internal Action<T> OnReleaseToPool;
         internal CancellationTokenSource _releaseCancellationTokenSource = new();
-        protected CancellationToken releaseCancellationToken => _releaseCancellationTokenSource.Token;
+        public CancellationToken releaseCancellationToken => _releaseCancellationTokenSource.Token;
 
         protected void ReleaseToPool()
         {
