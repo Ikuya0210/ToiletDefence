@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace GGGameOver.Toilet.Game
 {
-    public static class IDProvider
+    public class IDProvider
     {
-        private static uint _currentId = 0;
+        private uint _currentId = 0;
 
-        public static uint GenerateID()
+        public uint GenerateID()
         {
             return ++_currentId;
         }
 
-        public static void Reset()
+        public void Reset()
         {
             _currentId = 0;
         }

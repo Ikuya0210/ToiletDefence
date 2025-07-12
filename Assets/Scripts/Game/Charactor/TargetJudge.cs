@@ -6,9 +6,9 @@ using R3;
 
 namespace GGGameOver.Toilet.Game
 {
-    public static class TargetJudge
+    public class TargetJudge : IDisposable
     {
-        private static readonly List<Target> _entries = new();
+        private readonly List<Target> _entries = new();
         private struct Target
         {
             public readonly Transform TargetTransform;
@@ -29,7 +29,7 @@ namespace GGGameOver.Toilet.Game
         /// <param name="target">登録したいもの</param>
         /// <param name="id">生成時に取得したもの</param>
         /// <param name="isPlayers">プレイヤーにとって味方かどうか</param>
-        public static void Register(Transform target, uint id, bool isPlayers)
+        public void Register(Transform target, uint id, bool isPlayers)
         {
             if (target == null)
             {
@@ -59,7 +59,7 @@ namespace GGGameOver.Toilet.Game
                 .AddTo(target);
         }
 
-        public static void Unregister(uint id)
+        public void Unregister(uint id)
         {
             _entries.RemoveAll(entry => entry.Id == id);
         }
@@ -68,7 +68,7 @@ namespace GGGameOver.Toilet.Game
         /// 指定されたチームのターゲットIDを取得する。
         /// </summary>
         /// <param name="isPlayers">プレイヤーにとって味方かどうか</param>     
-        public static uint GetTargetId(bool isPlayers)
+        public uint GetTargetId(bool isPlayers)
         {
             foreach (var entry in _entries)
             {
@@ -81,7 +81,7 @@ namespace GGGameOver.Toilet.Game
             return 0;
         }
 
-        public static Transform GetTargetTransform(uint id)
+        public Transform GetTargetTransform(uint id)
         {
             foreach (var entry in _entries)
             {
@@ -94,12 +94,12 @@ namespace GGGameOver.Toilet.Game
             return null;
         }
 
-        public static void ClearList()
+        public void ClearList()
         {
             _entries.Clear();
         }
 
-        public static bool IsArrived(Transform t1, Transform t2, float threshold = 0.2f)
+        public bool IsArrived(Transform t1, Transform t2, float threshold = 0.2f)
         {
             if (t1 == null || t2 == null)
             {
@@ -109,6 +109,11 @@ namespace GGGameOver.Toilet.Game
             // x軸のみで判断
             return t1.position.x >= t2.position.x - threshold &&
                    t1.position.x <= t2.position.x + threshold;
+        }
+
+        public void Dispose()
+        {
+            ClearList();
         }
     }
 }

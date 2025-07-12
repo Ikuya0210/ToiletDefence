@@ -16,6 +16,8 @@ namespace GGGameOver.Toilet.Game
 
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField] private CapsuleCollider2D _capsuleCollider;
+        private TargetJudge _targetJudge;
+
 
         private Subject<bool> _moveCompleted = new();
         private Subject<bool> _attackCompleted = new();
@@ -30,9 +32,10 @@ namespace GGGameOver.Toilet.Game
         private bool _isTakingDamage = false;
 
 
-        public void Init(CharacterEntity entity, uint id, bool isPlayers)
+        public void Init(CharacterEntity entity, TargetJudge targetJudge, uint id, bool isPlayers)
         {
             _id = id;
+            _targetJudge = targetJudge;
             _isPlayers = isPlayers;
             _renderer.sprite = entity.Sprite;
             _renderer.color = Color.white;
@@ -60,9 +63,9 @@ namespace GGGameOver.Toilet.Game
         private async UniTask<bool> MoveToTarget(uint targetId, CancellationToken ct)
         {
             // 移動先
-            var target = TargetJudge.GetTargetTransform(targetId);
+            var target = _targetJudge.GetTargetTransform(targetId);
             // もう到着している場合はtrueを返す
-            if (TargetJudge.IsArrived(this.transform, target))
+            if (_targetJudge.IsArrived(this.transform, target))
             {
                 return true;
             }
@@ -77,7 +80,7 @@ namespace GGGameOver.Toilet.Game
                 int dir = target.position.x > transform.position.x ? 1 : -1;
                 transform.position += new Vector3(dir * _moveSpeed / 50, 0, 0);
 
-                if (TargetJudge.IsArrived(this.transform, target))
+                if (_targetJudge.IsArrived(this.transform, target))
                 {
                     return true;
                 }
@@ -148,7 +151,7 @@ namespace GGGameOver.Toilet.Game
         {
             Debug.Log($"{gameObject.name} 死亡");
             _isDead = true;
-            TargetJudge.Unregister(_id);
+            _targetJudge.Unregister(_id);
             ReleaseToPool();
         }
     }

@@ -50,13 +50,11 @@ namespace GGGameOver.Toilet.Game
                     // 衝突時の処理
                     Debug.Log($"Waterが {hit.gameObject.layer}レイヤー ({hit.gameObject.name}) に衝突");
                     Launched = false;
-
                     if (hit.gameObject.layer == Character.EnemyCharacterLayer && hit.TryGetComponent<ITakeDamage>(out var damageable))
                     {
                         // 敵にダメージを与える
                         damageable.TakeDamage(_attackPower);
                     }
-
                     ReleaseToPool();
                     return;
                 }
@@ -71,8 +69,6 @@ namespace GGGameOver.Toilet.Game
 
                 transform.position = newPosition;
                 prevPosition = newPosition;
-
-                // 目標点を超えた後も同じ速度・加速度で進み続けます
 
                 // 寿命チェック
                 if (elapsed >= _lifetime)

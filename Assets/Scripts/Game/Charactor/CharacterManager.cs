@@ -4,13 +4,15 @@ using UnityEngine;
 using R3;
 using System.Threading;
 using System;
+using VContainer;
 
 namespace GGGameOver.Toilet.Game
 {
     public sealed class CharacterManager : MonoBehaviour
     {
         public Action<int> OnGetPoint;
-        [SerializeField] private CharacterCreater _creater;
+        [Inject] private CharacterCreater _creater;
+        [Inject] private TargetJudge _targetJudge;
         private readonly List<CharacterModel> _characters = new();
         private readonly Queue<CharacterModel> _addCharacterQueue = new();
         private CancellationTokenSource _loopCts;
@@ -56,7 +58,7 @@ namespace GGGameOver.Toilet.Game
                     {
                         // 待機中のものにはターゲットを設定する
                         case Character.State.Idle:
-                            character.SetTarget(TargetJudge.GetTargetId(true));
+                            character.SetTarget(_targetJudge.GetTargetId(true));
                             break;
                         // 死んでいたら廃棄
                         case Character.State.Dead:

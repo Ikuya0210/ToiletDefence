@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using R3;
+using VContainer;
 
 namespace GGGameOver.Toilet.Game
 {
@@ -8,6 +9,8 @@ namespace GGGameOver.Toilet.Game
     {
         public Action OnDead;
         public uint ID { get; private set; }
+        [Inject] private IDProvider _idProvider;
+        [Inject] private TargetJudge _targetJudge;
         [SerializeField] private HealthGauge _healthGauge;
         [SerializeField] private int _maxHealth = 100;
         [SerializeField] private int _waterCost = 5;
@@ -15,8 +18,8 @@ namespace GGGameOver.Toilet.Game
 
         public void Init()
         {
-            ID = IDProvider.GenerateID();
-            TargetJudge.Register(transform, ID, true);
+            ID = _idProvider.GenerateID();
+            _targetJudge.Register(transform, ID, true);
             _currentHealth = _maxHealth;
             _healthGauge.Init(_maxHealth);
 

@@ -1,11 +1,14 @@
 using Cysharp.Threading.Tasks;
 using R3;
 using UnityEngine;
+using VContainer;
 
 namespace GGGameOver.Toilet.Game
 {
     public class CharacterCreater : ObjectPool<CharacterView>
     {
+        [Inject] private IDProvider _idProvider;
+        [Inject] private TargetJudge _targetJudge;
         [SerializeField] private Transform _initialPosAnchor;
         public void Init()
         {
@@ -19,7 +22,7 @@ namespace GGGameOver.Toilet.Game
                 Debug.LogError("空のCharacterEntityが渡されたので、nullを返します。");
                 return null;
             }
-            uint id = IDProvider.GenerateID();
+            uint id = _idProvider.GenerateID();
 
             var viewObj = GetPooledObject();
             viewObj.gameObject.layer = isPlayers ? Character.PlayerCharacterLayer : Character.EnemyCharacterLayer;
@@ -33,10 +36,10 @@ namespace GGGameOver.Toilet.Game
             );
             viewObj.transform.localRotation = Quaternion.identity;
             viewObj.name = $"{entity.Name}_{id}";
-            TargetJudge.Register(viewObj.transform, id, isPlayers);
+            _targetJudge.Register(viewObj.transform, id, isPlayers);
 
             var model = new CharacterModel(entity, id);
-            viewObj.Init(entity, id, isPlayers);
+            viewObj.Init(entity, _targetJudge, id, isPlayers);
 
             var presenter = new CharacterPresenter();
             presenter.RegisterTo(viewObj.releaseCancellationToken);

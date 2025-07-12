@@ -368,7 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lifetime: 3
   _speed: 20
-  _attackPower: 10
+  _attackPower: 21
 --- !u!1 &826247429
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987a1293cba43450f87537d0468199bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _creater: {fileID: 1202031611}
 --- !u!114 &1202031611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,6 +737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1266059407}
   - component: {fileID: 1266059406}
+  - component: {fileID: 1266059408}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -757,10 +757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4587a5f99bbd84b8aa46b12628061d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guiManager: {fileID: 1275855253}
-  _tower: {fileID: 1173650063}
-  _characterManager: {fileID: 1202031610}
-  _scheduleExecuter: {fileID: 680679442}
+  _lifetimeScope: {fileID: 1266059408}
 --- !u!4 &1266059407
 Transform:
   m_ObjectHideFlags: 0
@@ -781,6 +778,22 @@ Transform:
   - {fileID: 680679441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1266059408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266059405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efebeb5dbb2e4385aa0234b4f623e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 0
+  autoInjectGameObjects: []
 --- !u!1 &1275855250
 GameObject:
   m_ObjectHideFlags: 0

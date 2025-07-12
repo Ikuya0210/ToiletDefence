@@ -2,21 +2,24 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
+using VContainer;
 
 namespace GGGameOver.Toilet.Game
 {
     internal sealed class Root : SceneRoot
     {
         protected override SceneNames SceneName => SceneNames.Game;
-        [SerializeField] private GameGUIManager _guiManager;
-        [SerializeField] private Tower _tower;
-        [SerializeField] private CharacterManager _characterManager;
-        [SerializeField] private ScheduleExecuter _scheduleExecuter;
-        private PointManager _pointManager;
+        [SerializeField] private GameLifetimeScope _lifetimeScope;
+        [Inject] private GameGUIManager _guiManager;
+        [Inject] private Tower _tower;
+        [Inject] private CharacterManager _characterManager;
+        [Inject] private ScheduleExecuter _scheduleExecuter;
+        [Inject] private PointManager _pointManager;
+
 
         protected override UniTask InitBeforeShow(CancellationToken ct)
         {
-            IDProvider.Reset();
+            _lifetimeScope.Build();
             _pointManager = new();
 
             _tower.Init();
@@ -41,12 +44,6 @@ namespace GGGameOver.Toilet.Game
             // デュエル開始ィィィ
             _scheduleExecuter.Init(_characterManager.AddRequest);
             return base.Init(ct);
-        }
-
-        void OnDestroy()
-        {
-            IDProvider.Reset();
-            TargetJudge.ClearList();
         }
     }
 }
