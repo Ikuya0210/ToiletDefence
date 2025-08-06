@@ -1,0 +1,6 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/PBB/Loading/LoadingPanelStyle.uss?fileID=7433441132597879392&amp;guid=d90a6ba318d2f423d9af9ef7a9b929b0&amp;type=3#LoadingPanelStyle" />
+    <engine:VisualElement style="flex-grow: 0; background-color: rgb(52, 179, 202); align-content: flex-end; justify-content: flex-end; opacity: 1; display: flex; visibility: visible; width: 100%; height: 100%;">
+        <engine:Label text="///Loading..." style="-unity-font-definition: resource(&apos;Fonts/SmartFontUI03_SDF&apos;); font-size: 80px; color: rgb(248, 247, 247); -unity-text-align: lower-right; justify-content: flex-end; align-content: flex-end; margin-right: 30px; margin-bottom: 30px;" />
+    </engine:VisualElement>
+</engine:UXML>

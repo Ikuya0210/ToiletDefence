@@ -1,0 +1,5 @@
+VisualElement {
+    -unity-font-definition: resource('Fonts/SmartFontUI03_SDF');
+    font-size: 40px;
+    color: rgb(245, 245, 245);
+}

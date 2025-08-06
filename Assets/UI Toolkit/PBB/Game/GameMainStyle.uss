@@ -1,0 +1,5 @@
+.unity-text-element {
+    -unity-font-definition: resource('Fonts/SmartFontUI03_SDF');
+    font-size: 48px;
+    color: #FFFFFF;
+}
